@@ -1,11 +1,11 @@
 import React from 'react'
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 
-import Connections from './pages/Connections'
-import DataMappings from './pages/DataMappings'
-import History from './pages/History'
-import Login from './pages/Login'
-import Transfers from './pages/Transfers'
+import Connections from '../pages/Connections'
+import DataMappings from '../pages/DataMappings'
+import History from '../pages/History'
+import Login from '../pages/Login'
+import Transfers from '../pages/Transfers'
 
 class Router extends React.Component {
   render () {
