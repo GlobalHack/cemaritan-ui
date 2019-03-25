@@ -11,16 +11,15 @@ class Router extends React.Component {
   render () {
     // TODO add authentication to routes?
     return (
-      <BrowserRouter>
-        <Switch>
-          <Route path='/connections' component={Connections} />
-          <Route path='/data-mappings' component={DataMappings} />
-          <Route path='/history' component={History} />
-          <Route path='/login' component={Login} />
-          <Route path='/transfers' component={Transfers} />
-          <Route path='*' render={() => <Redirect to='/login' />} />
-        </Switch>
-      </BrowserRouter>
+      <Switch>
+        <Route path='/connections' component={Connections} />
+        <Route path='/data-mappings' component={DataMappings} />
+        <Route path='/history' component={History} />
+        <Route path='/login' component={Login} />
+        <Route path='/transfers' component={Transfers} />
+        <Route path='/' render={() => <Redirect to='/history' />} />
+        <Route path='*' render={() => <Redirect to='/login' />} />
+      </Switch>
     )
   }
 }
