@@ -1,5 +1,9 @@
 @import "../node_modules/react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 
+:root {
+  --navbar-height: 50px;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -13,4 +17,10 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.page-wrapper {
+  padding-top: var(--navbar-height);
+  padding-right: 5%;
+  padding-left: 5%;
 }

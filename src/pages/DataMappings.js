@@ -3,7 +3,7 @@ import React from 'react'
 class DataMappings extends React.Component {
   render () {
     return (
-      <div>this page shows DataMappings</div>
+      <div className="page-wrapper">this page shows DataMappings</div>
     )
   }
 }

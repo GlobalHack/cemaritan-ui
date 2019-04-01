@@ -3,7 +3,7 @@ import React from 'react'
 class Login extends React.Component {
   render () {
     return (
-      <div>gotta authenticate, yo!</div>
+      <div className="page-wrapper">gotta authenticate, yo!</div>
     )
   }
 }

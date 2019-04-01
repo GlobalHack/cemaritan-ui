@@ -33,7 +33,7 @@ class History extends React.Component {
 
   render () {
     return (
-      <div>
+      <div className="page-wrapper">
         <h1>History</h1>
         <BootstrapTable keyField='date' data={ products } columns={ columns } />
       </div>
