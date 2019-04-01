@@ -6,7 +6,7 @@ import DataMappings from "../pages/DataMappings";
 import Downloads from "../pages/Downloads";
 import History from "../pages/History";
 import Login from "../pages/Login";
-import Transfers from "../pages/transfers/Transfers";
+import Transfers from "../pages/transfers";
 import UploadTransfer from "../pages/transfers/UploadTransfer";
 import CreateTransfer from "../pages/transfers/CreateTransfer";
 
@@ -18,8 +18,6 @@ function Router() {
       <Route path="/history" component={History} />
       <Route path="/login" component={Login} />
       <Route path="/transfers" component={Transfers} />
-      <Route path="/create-transfer" component={CreateTransfer} />
-      <Route path="/upload-transfer" component={UploadTransfer} />
       <Route path="/downloads" component={Downloads} />
       <Route path="/" render={() => <Redirect to="/history" />} />
       <Route path="*" render={() => <Redirect to="/login" />} />
