@@ -10,8 +10,8 @@ function Router(props) {
 
   return (
     <Switch>
-      <Route path={`${path}/create`} component={CreateConnection} />
-      <Route path={`${path}/view`} component={ViewConnection} />
+      <Route path={`${path}/create`} exact component={CreateConnection} />
+      <Route path={`${path}/view`} exact component={ViewConnection} />
       <Route path="*" render={() => <Redirect to={`${path}/view`} />} />
     </Switch>
   );

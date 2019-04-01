@@ -11,9 +11,9 @@ function Router(props) {
 
   return (
     <Switch>
-      <Route path={`${path}/create`} component={CreateTransfer} />
-      <Route path={`${path}/history`} component={TransfersHistory} />
-      <Route path={`${path}/upload`} component={UploadTransfer} />
+      <Route path={`${path}/create`} exact component={CreateTransfer} />
+      <Route path={`${path}/history`} exact component={TransfersHistory} />
+      <Route path={`${path}/upload`} exact component={UploadTransfer} />
       <Route path="*" render={() => <Redirect to={`${path}/history`} />} />
     </Switch>
   );
