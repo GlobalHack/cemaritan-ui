@@ -1,9 +1,9 @@
 import React from "react";
 
-class Transfers extends React.Component {
+class TransfersHistory extends React.Component {
   render() {
-    return <div>this page shows transfers</div>;
+    return <div>this page shows transfer history</div>;
   }
 }
 
-export default Transfers;
+export default TransfersHistory;

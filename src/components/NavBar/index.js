@@ -11,10 +11,12 @@ class NavBar extends React.Component {
     return (
       <NavContainer>
         <NavItem onClick={this.redirect.bind(this, '/')}>Home</NavItem>
-        <NavItem onClick={this.redirect.bind(this, '/transfers')}>
+        <NavItem>
           Transfers
           <DropDown>
             <DropDownItem onClick={this.redirect.bind('/transfers/create')}>Create</DropDownItem>
+            <DropDownItem onClick={this.redirect.bind('/transfers/history')}>History</DropDownItem>
+            <DropDownItem onClick={this.redirect.bind('/transfers/upload')}>Upload</DropDownItem>
           </DropDown>
         </NavItem>
         <NavItem>

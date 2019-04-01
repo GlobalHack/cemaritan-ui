@@ -29,7 +29,7 @@ export const DropDown = styled.div`
   z-index: -1;
   background: #e2e2e2;
   min-height: 20px;
-  min-width: 100px;
+  min-width: 120px;
   top: -150px;
   left: 0;
   transition: all .3s;
