@@ -1,6 +1,6 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import { NavContainer, NavItem } from './styled'
+import { DropDown, DropDownItem, NavContainer, NavItem } from './styled'
 
 class NavBar extends React.Component {
   redirect = route => {
@@ -11,8 +11,19 @@ class NavBar extends React.Component {
     return (
       <NavContainer>
         <NavItem onClick={this.redirect.bind(this, '/')}>Home</NavItem>
-        <NavItem onClick={this.redirect.bind(this, '/transfers')}>Transfers</NavItem>
-        <NavItem onClick={this.redirect.bind(this, '/connections')}>Connections</NavItem>
+        <NavItem onClick={this.redirect.bind(this, '/transfers')}>
+          Transfers
+          <DropDown>
+            <DropDownItem onClick={this.redirect.bind('/transfers/create')}>Create</DropDownItem>
+          </DropDown>
+        </NavItem>
+        <NavItem>
+          Connections
+          <DropDown>
+            <DropDownItem onClick={this.redirect.bind(this, '/connections/create')}>Create</DropDownItem>
+            <DropDownItem onClick={this.redirect.bind(this, '/connections/view')}>View</DropDownItem>
+          </DropDown>
+        </NavItem>
         <NavItem onClick={this.redirect.bind(this, '/history')}>History</NavItem>
         <NavItem onClick={this.redirect.bind(this, '/downloads')}>Downloads</NavItem>
       </NavContainer>

@@ -1,6 +1,6 @@
 import React from 'react'
 
-class ViewConnection extends React.Component {
+class ViewConnections extends React.Component {
   render () {
     return (
       <div>this page lets you view connections</div>
@@ -8,4 +8,4 @@ class ViewConnection extends React.Component {
   }
 }
 
-export default ViewConnection
+export default ViewConnections
