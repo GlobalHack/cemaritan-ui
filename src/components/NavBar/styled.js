@@ -10,7 +10,7 @@ export const NavContainer = styled.div`
 export const NavItem = styled.div`
   display: inline-block;
   font-size: 20px;
-  padding: 2px 20px;
+  padding: 0px 20px;
   color: black;
   height: 50px;
   line-height: 50px;
