@@ -5,7 +5,7 @@ import NavBar from './components/NavBar'
 import Router from './components/Router'
 
 class App extends Component {
-  render() {
+  render () {
     return (
       <BrowserRouter>
         <div>

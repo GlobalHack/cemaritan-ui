@@ -10,10 +10,13 @@ export const NavContainer = styled.div`
 export const NavItem = styled.div`
   display: inline-block;
   font-size: 20px;
-  margin: 0px 20px;
+  padding: 2px 20px;
   color: black;
-  height: 40px;
-  line-height: 40px;
+  height: 50px;
+  line-height: 50px;
   text-align: center;
   cursor: pointer;
+  :hover {
+    background: #e2e2e2;
+  }
 `
