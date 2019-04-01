@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 
-import Connections from "../pages/Connections";
+import Connections from "../pages/connections";
 import DataMappings from "../pages/DataMappings";
 import Downloads from "../pages/Downloads";
 import History from "../pages/History";
