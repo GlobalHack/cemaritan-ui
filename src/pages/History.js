@@ -1,10 +1,18 @@
 import React from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 
-const products = [
+const history = [
   {
     id: 1,
     date: '2019-03-25',
+    name: 'Case-Worthy-To-HUD',
+    type: 'Transfer',
+    source: {name: 'Case Worthy'},
+    destination: {name: 'HUD'}
+  },
+  {
+    id: 2,
+    date: '2019-03-29',
     name: 'Case-Worthy-To-HUD',
     type: 'Transfer',
     source: {name: 'Case Worthy'},
@@ -14,19 +22,24 @@ const products = [
 
 const columns = [{
   dataField: 'date',
-  text: 'Date'
+  text: 'Date',
+  sort: true
 }, {
   dataField: 'name',
-  text: 'Name'
+  text: 'Name',
+  sort: true
 }, {
   dataField: 'type',
-  text: 'Type'
+  text: 'Type',
+  sort: true
 }, {
   dataField: 'source.name',
-  text: 'Source'
+  text: 'Source',
+  sort: true
 }, {
   dataField: 'destination.name',
-  text: 'Destination'
+  text: 'Destination',
+  sort: true
 }];
 
 class History extends React.Component {
@@ -35,7 +48,12 @@ class History extends React.Component {
     return (
       <div>
         <h1>History</h1>
-        <BootstrapTable keyField='date' data={ products } columns={ columns } />
+        <BootstrapTable
+          bootstrap4
+          keyField='date'
+          data={ history }
+          columns={ columns }
+        />
       </div>
     )
   }
