@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom'
 import CreateTransfer from "./CreateTransfer";
 import ViewTransfers from "./ViewTransfers";
 import UploadTransfer from "./UploadTransfer";
+import TransfersHistory from './TransfersHistory'
 
 function Router(props) {
   const { path } = props.match
@@ -12,7 +13,7 @@ function Router(props) {
   return (
     <Switch>
       <Route path={`${path}/create`} exact component={CreateTransfer} />
-      <Route path={`${path}/view`} exact component={ViewTransfers} />
+      <Route path={`${path}/view`} exact component={TransfersHistory} />
       <Route path={`${path}/upload`} exact component={UploadTransfer} />
       <Route path="*" render={() => <Redirect to={`${path}/view`} />} />
     </Switch>
