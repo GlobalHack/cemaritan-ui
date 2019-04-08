@@ -7,8 +7,6 @@ import Downloads from "../pages/Downloads";
 import History from "../pages/History";
 import Login from "../pages/Login";
 import Transfers from "../pages/transfers";
-import UploadTransfer from "../pages/transfers/UploadTransfer";
-import CreateTransfer from "../pages/transfers/CreateTransfer";
 
 function Router() {
   return (

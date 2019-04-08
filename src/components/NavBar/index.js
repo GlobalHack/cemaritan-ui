@@ -15,7 +15,7 @@ class NavBar extends React.Component {
           Transfers
           <DropDown>
             <DropDownItem onClick={this.redirect.bind(this, '/transfers/create')}>Create</DropDownItem>
-            <DropDownItem onClick={this.redirect.bind(this, '/transfers/history')}>History</DropDownItem>
+            <DropDownItem onClick={this.redirect.bind(this, '/transfers/view')}>View</DropDownItem>
             <DropDownItem onClick={this.redirect.bind(this, '/transfers/upload')}>Upload</DropDownItem>
           </DropDown>
         </NavItem>

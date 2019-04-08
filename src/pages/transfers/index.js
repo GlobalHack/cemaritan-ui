@@ -3,7 +3,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import { withRouter } from 'react-router-dom'
 
 import CreateTransfer from "./CreateTransfer";
-import TransfersHistory from "./TransfersHistory";
+import ViewTransfers from "./ViewTransfers";
 import UploadTransfer from "./UploadTransfer";
 
 function Router(props) {
@@ -12,9 +12,9 @@ function Router(props) {
   return (
     <Switch>
       <Route path={`${path}/create`} exact component={CreateTransfer} />
-      <Route path={`${path}/history`} exact component={TransfersHistory} />
+      <Route path={`${path}/view`} exact component={ViewTransfers} />
       <Route path={`${path}/upload`} exact component={UploadTransfer} />
-      <Route path="*" render={() => <Redirect to={`${path}/history`} />} />
+      <Route path="*" render={() => <Redirect to={`${path}/view`} />} />
     </Switch>
   );
 }
