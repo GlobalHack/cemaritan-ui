@@ -1,8 +1,10 @@
 import config from '../config'
 
-const ENV = 'nonprod' // this is harcoded until we have two environments
+// env is harcoded until we have two environments
+const ENV = 'nonprod'
+// this api url is pulled from the config file imported above
 const api = config[ENV].api
-
+// strings used as fetcher arg to map to each endpoint ex: fetcher('connections')
 const endpoints = {
   connections: '/connections',
   mappings: '/mappings',
@@ -11,10 +13,8 @@ const endpoints = {
   users: '/users'
 }
 
-// base fetcher used by other fetching funcs
 export const fetcher = (endpoint, passedOpts) => {
   const opts = {
-    mode: 'cors',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -26,9 +26,4 @@ export const fetcher = (endpoint, passedOpts) => {
   return fetch(url, opts)
     .then(res => res.json())
     .catch(console.error)
-}
-
-// example - this could also be used in the component directly?
-export const getTransfers = () => {
-  return fetcher('transfers')
 }
