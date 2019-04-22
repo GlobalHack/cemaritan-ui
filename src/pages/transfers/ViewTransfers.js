@@ -1,6 +1,6 @@
 import React from "react";
 import BootstrapTable from 'react-bootstrap-table-next';
-import { fetcher } from '../../utils/fetcher'
+import fetcher from '../../utils/fetcher'
 
 
 const transfers = [
@@ -85,7 +85,7 @@ class ViewTransfers extends React.Component {
       data: []
     }
   }
-  
+
   componentDidMount () {
     fetcher('transfers').then(data => {
       this.setState({ data })

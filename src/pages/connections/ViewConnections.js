@@ -1,5 +1,6 @@
 import React from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
+import fetcher from '../../utils/fetcher'
 
 const connections = [
   {
@@ -52,6 +53,20 @@ const columns = [{
 }];
 
 class ViewConnections extends React.Component {
+  constructor () {
+    super()
+
+    this.state = {
+      data: []
+    }
+  }
+
+  componentDidMount () {
+    fetcher('connections').then(data => {
+      this.setState({ data })
+    })
+  }
+
   render () {
     return (
       <div>
@@ -59,7 +74,7 @@ class ViewConnections extends React.Component {
         <BootstrapTable
           bootstrap4
           keyField='UID'
-          data={ connections }
+          data={ this.state.data }
           columns={ columns }
         />
       </div>
