@@ -1,5 +1,6 @@
 import React from "react";
 import BootstrapTable from 'react-bootstrap-table-next';
+import { fetcher } from '../../utils/fetcher'
 
 
 const transfers = [
@@ -56,11 +57,11 @@ const columns = [{
   sort: true,
   formatter: (cell) => cell ? 'Active' : 'Inactive'
 }, {
-  dataField: 'Source.Name',
+  dataField: 'Source',
   text: 'Source',
   sort: true
 },{
-  dataField: 'Destination.Name',
+  dataField: 'Destination',
   text: 'Destination',
   sort: true
 }, {
@@ -77,6 +78,20 @@ const columns = [{
 }];
 
 class ViewTransfers extends React.Component {
+  constructor () {
+    super()
+
+    this.state = {
+      data: []
+    }
+  }
+  
+  componentDidMount () {
+    fetcher('transfers').then(data => {
+      this.setState({ data })
+    })
+  }
+
   render() {
     return (
       <div>
@@ -84,7 +99,7 @@ class ViewTransfers extends React.Component {
         <BootstrapTable
           bootstrap4
           keyField='UID'
-          data={ transfers }
+          data={ this.state.data }
           columns={ columns }
         />
       </div>
