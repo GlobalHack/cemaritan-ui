@@ -1,48 +1,40 @@
 import React from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
+import { fetcher } from '../utils/fetcher';
 
-const history = [
-  {
-    id: 1,
-    date: '2019-03-25',
-    name: 'Case-Worthy-To-HUD',
-    type: 'Transfer',
-    source: {name: 'Case Worthy'},
-    destination: {name: 'HUD'}
-  },
-  {
-    id: 2,
-    date: '2019-03-29',
-    name: 'Case-Worthy-To-HUD',
-    type: 'Transfer',
-    source: {name: 'Case Worthy'},
-    destination: {name: 'HUD'}
-  }
-];
 
 const columns = [{
   dataField: 'date',
   text: 'Date',
   sort: true
 }, {
-  dataField: 'name',
-  text: 'Name',
-  sort: true
-}, {
   dataField: 'type',
   text: 'Type',
   sort: true
 }, {
-  dataField: 'source.name',
-  text: 'Source',
+  dataField: 'createdbyuser',
+  text: 'Created By',
   sort: true
 }, {
-  dataField: 'destination.name',
-  text: 'Destination',
+  dataField: 'action',
+  text: 'Action',
   sort: true
 }];
 
 class History extends React.Component {
+  constructor () {
+    super()
+
+    this.state = {
+      data: []
+    }
+  }
+
+  componentDidMount () {
+    fetcher('histories').then(data => {
+      this.setState({ data })
+    })
+  }
 
   render () {
     return (
@@ -50,8 +42,8 @@ class History extends React.Component {
         <h1>History</h1>
         <BootstrapTable
           bootstrap4
-          keyField='date'
-          data={ history }
+          keyField='uid'
+          data={ this.state.data }
           columns={ columns }
         />
       </div>

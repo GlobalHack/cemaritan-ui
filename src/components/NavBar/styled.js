@@ -30,6 +30,7 @@ export const DropDown = styled.div`
   background: #e2e2e2;
   min-height: 20px;
   min-width: 120px;
+  width: 100%;
   top: -150px;
   left: 0;
   transition: all .3s;
