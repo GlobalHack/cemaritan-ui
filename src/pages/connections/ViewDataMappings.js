@@ -1,65 +1,54 @@
 import React from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
+import { fetcher } from '../../utils/fetcher';
 
-const mappings = [
-  {
-    "UID": 1,
-    "Organization": 1,
-    "Name": "SF to HUD",
-    "StartFormat": "csv",
-    "EndFormat": "json",
-    "NumOfTransfers": 1,
-    "MappingInfo": "{}"
-  }, {
-    "UID": 2,
-    "Organization": 1,
-    "Name": "CW to HUD",
-    "StartFormat": "csv",
-    "EndFormat": "json",
-    "NumOfTransfers": 1,
-    "MappingInfo": "{}"
-  }, {
-    "UID": 6,
-    "Organization": 1,
-    "Name": "new_mapping",
-    "StartFormat": "csv",
-    "EndFormat": "json",
-    "NumOfTransfers": 1,
-    "MappingInfo": "blahdiblah"
-  }
-];
 
 const columns = [{
-  dataField: 'UID',
+  dataField: 'uid',
   text: 'UID',
   hidden: true
 }, {
-  dataField: 'Name',
+  dataField: 'name',
   text: 'Name',
   sort: true
 }, {
-  dataField: 'StartFormat',
+  dataField: 'startformat',
   text: 'Start Format',
   sort: false
 }, {
- dataField: 'EndFormat',
+ dataField: 'endformat',
  text: 'End Format',
  sort: false
 }, {
- dataField: 'NumOfTransfers',
+ dataField: 'numoftransfers',
  text: '# of Transfers',
  sort: false
 }];
 
 class ViewConnections extends React.Component {
+  constructor () {
+    super();
+
+    this.state = {
+      data: []
+    }
+  }
+
+  componentDidMount () {
+    fetcher('mappings').then(data => {
+      console.log(data);
+      this.setState({ data })
+    })
+  }
+
   render () {
     return (
       <div>
         <h1>View Data Mappings</h1>
         <BootstrapTable
           bootstrap4
-          keyField='UID'
-          data={ mappings }
+          keyField='uid'
+          data={ this.state.data }
           columns={ columns }
         />
       </div>
