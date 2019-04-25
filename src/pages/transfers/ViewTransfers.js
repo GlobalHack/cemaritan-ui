@@ -16,10 +16,18 @@ const columns = [{
   dataField: 'source',
   text: 'Source',
   sort: true
-},{
+}, {
+  dataField: 'sourcemapping',
+  text: 'Source Mapping',
+  sort: false
+}, {
   dataField: 'destination',
   text: 'Destination',
   sort: true
+}, {
+  dataField: 'destinationmapping',
+  text: 'Destination Mapping',
+  sort: false
 }, {
   dataField: 'frequency',
   text: 'Frequency'
