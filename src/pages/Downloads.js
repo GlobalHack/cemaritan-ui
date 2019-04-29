@@ -18,7 +18,7 @@ const startDownload = (e) => {
 }
 
 const downloadsColumn = (cell) => (
-  <a href="" onClick={startDownload} data-download-id={cell}>Download</a>
+  <a href="#link-to-start-download" onClick={startDownload} data-download-id={cell}>Download</a>
 );
 
 const columns = [{

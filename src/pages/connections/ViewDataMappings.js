@@ -1,6 +1,6 @@
 import React from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
-import fetcher from '../../utils/fetcher'
+import { fetcher } from '../../utils/fetcher';
 
 
 const columns = [{
@@ -12,22 +12,22 @@ const columns = [{
   text: 'Name',
   sort: true
 }, {
-  dataField: 'type',
-  text: 'Type',
-  sort: true
-},{
-  dataField: 'createddate',
-  text: 'Created',
-  sort: true
+  dataField: 'startformat',
+  text: 'Start Format',
+  sort: false
 }, {
-  dataField: 'uid',
-  text: 'Edit',
-  formatter: (cell) => <a href="#route-to-connection">Edit</a>
+ dataField: 'endformat',
+ text: 'End Format',
+ sort: false
+}, {
+ dataField: 'numoftransfers',
+ text: '# of Transfers',
+ sort: false
 }];
 
 class ViewConnections extends React.Component {
   constructor () {
-    super()
+    super();
 
     this.state = {
       data: []
@@ -35,7 +35,8 @@ class ViewConnections extends React.Component {
   }
 
   componentDidMount () {
-    fetcher('connections').then(data => {
+    fetcher('mappings').then(data => {
+      console.log(data);
       this.setState({ data })
     })
   }
@@ -43,10 +44,10 @@ class ViewConnections extends React.Component {
   render () {
     return (
       <div>
-        <h1>View Connections</h1>
+        <h1>View Data Mappings</h1>
         <BootstrapTable
           bootstrap4
-          keyField='UID'
+          keyField='uid'
           data={ this.state.data }
           columns={ columns }
         />
