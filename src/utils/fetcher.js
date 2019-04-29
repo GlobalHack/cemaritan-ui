@@ -2,7 +2,7 @@ import config from '../config'
 
 // env is harcoded until we have two environments
 const ENV = 'nonprod'
-// this api url is pulled from the config file imported above
+// this api base url is pulled from the config file imported above
 const api = config[ENV].api
 
 // organizations (options: 1, 2, 3)
@@ -18,7 +18,7 @@ const endpoints = {
   histories: `/organizations/${organization_id}/histories`
 }
 
-export const fetcher = (endpoint, passedOpts) => {
+const fetcher = (endpoint, passedOpts) => {
   const opts = {
     headers: {
       'Content-Type': 'application/json'
@@ -32,3 +32,5 @@ export const fetcher = (endpoint, passedOpts) => {
     .then(res => res.json())
     .catch(console.error)
 }
+
+export default fetcher

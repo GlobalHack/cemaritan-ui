@@ -1,6 +1,6 @@
 import React from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
-import { fetcher } from '../../utils/fetcher';
+import fetcher from '../../utils/fetcher';
 
 
 const columns = [{
@@ -36,7 +36,6 @@ class ViewConnections extends React.Component {
 
   componentDidMount () {
     fetcher('mappings').then(data => {
-      console.log(data);
       this.setState({ data })
     })
   }

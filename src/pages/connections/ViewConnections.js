@@ -1,6 +1,6 @@
 import React from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
-import { fetcher } from '../../utils/fetcher';
+import fetcher from '../../utils/fetcher'
 
 
 const columns = [{
@@ -46,7 +46,7 @@ class ViewConnections extends React.Component {
         <h1>View Connections</h1>
         <BootstrapTable
           bootstrap4
-          keyField='uid'
+          keyField='UID'
           data={ this.state.data }
           columns={ columns }
         />
