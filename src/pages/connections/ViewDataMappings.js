@@ -36,7 +36,6 @@ class ViewConnections extends React.Component {
 
   componentDidMount () {
     fetcher('mappings').then(data => {
-      console.log(data);
       this.setState({ data })
     })
   }
