@@ -6,12 +6,12 @@ import 'firebase/auth'
 
 // TODO: Replace the following with your app's Firebase project configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBMigHY6seFFMkNffKN25JEI7Og0wOrn1c",
-  authDomain: "cemaritan-be472.firebaseapp.com",
-  databaseURL: "https://cemaritan-be472.firebaseio.com",
-  projectId: "cemaritan-be472",
-  storageBucket: "cemaritan-be472.appspot.com",
-  messagingSenderId: "105190732744"
+  apiKey: "bad",
+  authDomain: "bad",
+  databaseURL: "bad",
+  projectId: "bad",
+  storageBucket: "bad",
+  messagingSenderId: "bad"
 }
 
 // Initialize Firebase
