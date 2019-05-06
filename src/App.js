@@ -9,7 +9,7 @@ class App extends Component {
     super()
 
     this.state = {
-      isAuthenticated: false, // TODO default this to false
+      isAuthenticated: true, // TODO default this to false
       user: null
     }
   }
