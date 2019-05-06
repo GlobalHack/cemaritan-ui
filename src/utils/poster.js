@@ -14,6 +14,9 @@ const endpoints = {
 }
 
 const poster = (endpoint, data, passedOpts) => {
+  // check to make sure passed endpoint is valid in endpoints object above
+  if (!endpoints[endpoint]) return console.error(`'${endpoint}' is not a valid endpoint!`)
+  
   const opts = {
     headers: {
       'Content-Type': 'application/json'
@@ -22,8 +25,7 @@ const poster = (endpoint, data, passedOpts) => {
     body: JSON.stringify(data),
     ...passedOpts
   }
-  // check to make sure passed endpoint is valid in endpoints object above
-  const url = !!endpoints[endpoint] ? `${api}${endpoints[endpoint]}` : console.error(`'${endpoint}' is not a valid endpoint!`)
+  const url = `${api}${endpoints[endpoint]}`
 
   return fetch(url, opts)
     .then(res => res.json())
