@@ -4,9 +4,6 @@ import { withRouter } from 'react-router-dom'
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
 
-console.log(process.env)
-
-// TODO: figure out solution for api keys
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
