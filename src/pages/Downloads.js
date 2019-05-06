@@ -1,15 +1,6 @@
 import React from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
-
-const downloads = [
-  {
-    id: 1,
-    date: '2019-03-25',
-    name: 'CW-Weekly-190325',
-    source: {name: 'Case Worthy'},
-    mapping: {name: 'CW-HUD'}
-  }
-];
+import fetcher from '../utils/fetcher'
 
 const startDownload = (e) => {
   e.preventDefault();
@@ -18,11 +9,11 @@ const startDownload = (e) => {
 }
 
 const downloadsColumn = (cell) => (
-  <a href="" onClick={startDownload} data-download-id={cell}>Download</a>
+  <a href="#link-to-start-download" onClick={startDownload} data-download-id={cell}>Download</a>
 );
 
 const columns = [{
-  dataField: 'date',
+  dataField: 'createddate',
   text: 'Date',
   sort: true
 }, {
@@ -44,6 +35,21 @@ const columns = [{
 }];
 
 class Downloads extends React.Component {
+  constructor () {
+    super()
+
+    this.state = {
+      data: []
+    }
+  }
+
+  componentDidMount () {
+    // TODO update this to downloads endpoint once it exists
+    fetcher('connections').then(data => {
+      this.setState({ data })
+    })
+  }
+
   render () {
     return (
       <div>
@@ -51,7 +57,7 @@ class Downloads extends React.Component {
         <BootstrapTable
           bootstrap4
           keyField='date'
-          data={ downloads }
+          data={ this.state.data }
           columns={ columns }
         />
       </div>

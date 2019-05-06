@@ -2,18 +2,23 @@ import config from '../config'
 
 // env is harcoded until we have two environments
 const ENV = 'nonprod'
-// this api url is pulled from the config file imported above
+// this api base url is pulled from the config file imported above
 const api = config[ENV].api
+
+// organizations (options: 1, 2, 3)
+const organization_id = 1;
+
 // strings used as fetcher arg to map to each endpoint ex: fetcher('connections')
 const endpoints = {
-  connections: '/connections',
-  mappings: '/mappings',
-  organizations: '/organizations',
-  transfers: '/transfers',
-  users: '/users'
+  connections: `/organizations/${organization_id}/connections`,
+  mappings: `/organizations/${organization_id}/mappings`,
+  organizations: `/organizations`,
+  transfers: `/organizations/${organization_id}/transfers`,
+  users: `/organizations/${organization_id}/users`,
+  histories: `/organizations/${organization_id}/histories`
 }
 
-export const fetcher = (endpoint, passedOpts) => {
+const fetcher = (endpoint, passedOpts) => {
   const opts = {
     headers: {
       'Content-Type': 'application/json'
@@ -27,3 +32,5 @@ export const fetcher = (endpoint, passedOpts) => {
     .then(res => res.json())
     .catch(console.error)
 }
+
+export default fetcher
