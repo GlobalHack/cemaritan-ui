@@ -2,13 +2,31 @@ import React, {useState, useEffect} from "react";
 import {Formik, Field} from "formik";
 import styled from 'styled-components';
 
+const Form = styled.form`
+  width: 90%;
+  max-width: 18rem;
+`;
+
 const Label = styled.label`
   display: block;
-  color: purple;
+  margin-bottom: 0;
+`;
+
+const CheckboxLabel = styled.label`
+  margin-left: 0.5rem;
 `;
 
 const Select = styled.select`
   width: 100%;
+`;
+
+const SubmitButton = styled.button`
+  color: #fff;
+  font-weight: bold;
+  background-color: #03aee2;
+  border-color: #03aee2;
+  border-radius: 2px;
+  padding: 0.25rem 1rem;
 `;
 
 
@@ -65,11 +83,11 @@ function CreateTransfer() {
           isSubmitting,
           /* and other goodies */
         }) => (
-          <form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit}>
 
             <div className="form-group">
               <Label htmlFor="source">Source</Label>
-              <Field component="Select" name="source" onChange={handleChange} value={values.source}>
+              <Field component={Select} name="source" onChange={handleChange} value={values.source}>
                 <option value=""></option>
                 {sourceOptions.map((source) => (
                   <option key={`source-option-${source.id}`} value={source.id}>{source.name}</option>
@@ -79,7 +97,7 @@ function CreateTransfer() {
 
             <div className="form-group">
               <Label htmlFor="sourceMapping">Source Mapping</Label>
-              <Field component="select" name="sourceMapping" onChange={handleChange} value={values.sourceMapping}>
+              <Field component={Select} name="sourceMapping" onChange={handleChange} value={values.sourceMapping}>
                 <option value=""></option>
                 {sourceMappingOptions.map((mapping) => (
                   <option key={`source-mapping-option-${mapping.id}`} value={mapping.id}>{mapping.name}</option>
@@ -89,7 +107,7 @@ function CreateTransfer() {
 
             <div className="form-group">
               <Label htmlFor="destination">Destination</Label>
-              <Field component="select" name="destination" onChange={handleChange} value={values.destination}>
+              <Field component={Select} name="destination" onChange={handleChange} value={values.destination}>
                 <option value=""></option>
                 {destinationOptions.map((dest) => (
                   <option key={`dest-option-${dest.id}`} value={dest.id}>{dest.name}</option>
@@ -99,7 +117,7 @@ function CreateTransfer() {
 
             <div className="form-group">
               <Label htmlFor="destinationMapping">Destination Mapping</Label>
-              <Field component="select" name="destinationMapping" onChange={handleChange} value={values.destinationMapping}>
+              <Field component={Select} name="destinationMapping" onChange={handleChange} value={values.destinationMapping}>
                 <option value=""></option>
                 {destinationMappingOptions.map((mapping) => (
                   <option key={`dest-mapping-option-${mapping.id}`} value={mapping.id}>{mapping.name}</option>
@@ -109,7 +127,7 @@ function CreateTransfer() {
 
             <div className="form-group">
               <Label htmlFor="frequency">Frequency</Label>
-              <Field component="select" name="frequency" onChange={handleChange} value={values.frequency}>
+              <Field component={Select} name="frequency" onChange={handleChange} value={values.frequency}>
                 <option value=""></option>
                 <option value="5 Minute">5 Minute</option>
                 <option value="Hour">Hour</option>
@@ -118,14 +136,14 @@ function CreateTransfer() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="active">Active</label>
               <input type="checkbox" name="active" onChange={handleChange} value={values.active} />
+              <CheckboxLabel htmlFor="active">Active</CheckboxLabel>
             </div>
 
-            <button type="submit" disabled={isSubmitting}>
+            <SubmitButton type="submit" disabled={isSubmitting}>
               Submit
-            </button>
-          </form>
+            </SubmitButton>
+          </Form>
         )}
         </Formik>
       </div>
