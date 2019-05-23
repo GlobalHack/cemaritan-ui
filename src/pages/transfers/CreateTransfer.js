@@ -1,33 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {Formik, Field} from "formik";
-import styled from 'styled-components';
-
-const Form = styled.form`
-  width: 90%;
-  max-width: 18rem;
-`;
-
-const Label = styled.label`
-  display: block;
-  margin-bottom: 0;
-`;
-
-const CheckboxLabel = styled.label`
-  margin-left: 0.5rem;
-`;
-
-const Select = styled.select`
-  width: 100%;
-`;
-
-const SubmitButton = styled.button`
-  color: #fff;
-  font-weight: bold;
-  background-color: #03aee2;
-  border-color: #03aee2;
-  border-radius: 2px;
-  padding: 0.25rem 1rem;
-`;
+import {Form, Label, CheckboxLabel, Select, SubmitButton} from '../../styled-variables';
 
 
 function CreateTransfer() {
