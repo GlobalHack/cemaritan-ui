@@ -1,6 +1,6 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import { DropDown, DropDownItem, NavContainer, NavItem } from './styled'
+import { DropDown, DropDownItem, DropDownItemDisabled, NavContainer, NavItem } from './styled'
 
 class NavBar extends React.Component {
   redirect = route => {
@@ -22,7 +22,7 @@ class NavBar extends React.Component {
         <NavItem>
           Connections
           <DropDown>
-            <DropDownItem onClick={this.redirect.bind(this, '/connections/create')}>Create</DropDownItem>
+            <DropDownItemDisabled>Create</DropDownItemDisabled>
             <DropDownItem onClick={this.redirect.bind(this, '/connections/view')}>View</DropDownItem>
             <DropDownItem onClick={this.redirect.bind(this, '/connections/data-mappings')}>Data Mappings</DropDownItem>
           </DropDown>

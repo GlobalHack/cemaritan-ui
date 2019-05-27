@@ -46,3 +46,12 @@ export const DropDownItem = styled.div`
     background: #eeeeee;
   }
 `
+
+export const DropDownItemDisabled = styled.div`
+  background: #e2e2e2;
+  color: black;
+  :hover {
+    background: #eeeeee;
+    cursor: not-allowed;
+  }
+`
