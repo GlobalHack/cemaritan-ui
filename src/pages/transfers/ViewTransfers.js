@@ -32,7 +32,7 @@ const columns = [{
   dataField: 'frequency',
   text: 'Frequency'
 }, {
-  dataField: 'startdatetime',
+  dataField: 'starttime',
   text: 'Start Date',
   sort: true
 }, {
@@ -52,6 +52,7 @@ class ViewTransfers extends React.Component {
 
   componentDidMount () {
     fetcher('transfers').then(data => {
+      console.log(data);
       this.setState({ data })
     })
   }
