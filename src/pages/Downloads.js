@@ -4,32 +4,32 @@ import fetcher from '../utils/fetcher'
 
 const startDownload = (e) => {
   e.preventDefault();
-  const downloadId = e.currentTarget.getAttribute('data-download-id');
-  console.log(`start download with id: ${downloadId}`);
+  const downloadId = e.currentTarget.getAttribute('data-download-link');
+  console.log(`start download with link: ${downloadId}`);
 }
 
 const downloadsColumn = (cell) => (
-  <a href="#link-to-start-download" onClick={startDownload} data-download-id={cell}>Download</a>
+  <a href="#link-to-start-download" onClick={startDownload} data-download-link={cell}>Download</a>
 );
 
 const columns = [{
-  dataField: 'createddate',
-  text: 'Date',
+  dataField: 'uid',
+  text: 'UID',
+  hidden: true
+}, {
+  dataField: 'expiration_datetime',
+  text: 'Expiration Date',
   sort: true
 }, {
   dataField: 'name',
   text: 'Name',
   sort: true
 },{
-  dataField: 'source.name',
-  text: 'Source',
+  dataField: 'transfer_name',
+  text: 'Transfer Name',
   sort: true
 }, {
-  dataField: 'mapping.name',
-  text: 'Mapping',
-  sort: true
-}, {
-  dataField: 'id',
+  dataField: 'file_location_info',
   text: 'Download',
   formatter: downloadsColumn
 }];
@@ -44,8 +44,7 @@ class Downloads extends React.Component {
   }
 
   componentDidMount () {
-    // TODO update this to downloads endpoint once it exists
-    fetcher('connections').then(data => {
+    fetcher('downloads').then(data => {
       this.setState({ data })
     })
   }
@@ -56,7 +55,7 @@ class Downloads extends React.Component {
         <h1>Downloads</h1>
         <BootstrapTable
           bootstrap4
-          keyField='date'
+          keyField='uid'
           data={ this.state.data }
           columns={ columns }
         />

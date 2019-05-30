@@ -11,6 +11,7 @@ const organization_id = 1;
 // strings used as fetcher arg to map to each endpoint ex: fetcher('connections')
 const endpoints = {
   connections: `/organizations/${organization_id}/connections`,
+  downloads: `/organizations/${organization_id}/downloads`,
   mappings: `/organizations/${organization_id}/mappings`,
   organizations: `/organizations`,
   transfers: `/organizations/${organization_id}/transfers`,
