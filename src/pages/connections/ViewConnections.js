@@ -19,10 +19,6 @@ const columns = [{
   dataField: 'created_datetime',
   text: 'Created',
   sort: true
-}, {
-  dataField: 'uid',
-  text: 'Edit',
-  formatter: (cell) => <a href="#route-to-connection">Edit</a>
 }];
 
 class ViewConnections extends React.Component {
