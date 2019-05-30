@@ -12,10 +12,6 @@ const columns = [{
   text: 'Type',
   sort: true
 }, {
-  dataField: 'createdbyuser',
-  text: 'Created By',
-  sort: true
-}, {
   dataField: 'action',
   text: 'Action',
   sort: true
