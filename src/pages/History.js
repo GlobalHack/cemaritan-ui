@@ -4,7 +4,7 @@ import fetcher from '../utils/fetcher';
 
 
 const columns = [{
-  dataField: 'date',
+  dataField: 'datetime',
   text: 'Date',
   sort: true
 }, {

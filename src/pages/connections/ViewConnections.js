@@ -16,7 +16,7 @@ const columns = [{
   text: 'Type',
   sort: true
 },{
-  dataField: 'createddate',
+  dataField: 'created_datetime',
   text: 'Created',
   sort: true
 }, {
@@ -46,7 +46,7 @@ class ViewConnections extends React.Component {
         <h1>View Connections</h1>
         <BootstrapTable
           bootstrap4
-          keyField='UID'
+          keyField='uid'
           data={ this.state.data }
           columns={ columns }
         />
