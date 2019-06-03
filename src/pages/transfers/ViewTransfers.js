@@ -38,7 +38,7 @@ const columns = [{
 }, {
   dataField: 'uid',
   text: 'Edit',
-  formatter: (cell) => <a href="#route-to-transfer">Edit</a>
+  formatter: (cell) => <a href={`edit/${cell}`}>Edit</a>
 }];
 
 class ViewTransfers extends React.Component {

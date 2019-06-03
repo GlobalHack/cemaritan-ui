@@ -19,7 +19,7 @@ const endpoints = {
   histories: `/organizations/${organization_id}/histories`
 }
 
-const fetcher = (endpoint, passedOpts) => {
+const fetcher = (endpoint, objectId, passedOpts) => {
   const opts = {
     headers: {
       'Content-Type': 'application/json'
@@ -27,7 +27,11 @@ const fetcher = (endpoint, passedOpts) => {
     ...passedOpts
   }
   // check to make sure passed endpoint is valid in endpoints object above
-  const url = !!endpoints[endpoint] ? `${api}${endpoints[endpoint]}` : console.error(`'${endpoint}' is not a valid endpoint!`)
+  let url = !!endpoints[endpoint] ? `${api}${endpoints[endpoint]}` : console.error(`'${endpoint}' is not a valid endpoint!`);
+
+  if (objectId){
+    url = url + `/${objectId}`;
+  }
 
   return fetch(url, opts)
     .then(res => res.json())
