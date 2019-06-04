@@ -20,14 +20,16 @@ const endpoints = {
 }
 
 const fetcher = (endpoint, objectId, passedOpts) => {
+  // check to make sure passed endpoint is valid in endpoints object above
+  if (!endpoints[endpoint]) return console.error(`'${endpoint}' is not a valid endpoint!`)
+
   const opts = {
     headers: {
       'Content-Type': 'application/json'
     },
     ...passedOpts
   }
-  // check to make sure passed endpoint is valid in endpoints object above
-  let url = !!endpoints[endpoint] ? `${api}${endpoints[endpoint]}` : console.error(`'${endpoint}' is not a valid endpoint!`);
+  let url = `${api}${endpoints[endpoint]}`
 
   if (objectId){
     url = url + `/${objectId}`;
