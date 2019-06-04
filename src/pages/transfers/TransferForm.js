@@ -1,33 +1,23 @@
 import React, {useState, useEffect} from "react";
 import {Formik, Field} from "formik";
 import {Form, Label, CheckboxLabel, Select, SubmitButton} from '../../styled-variables';
-
+import fetcher from '../../utils/fetcher';
 
 function TransferForm (props) {
-  const [sourceOptions, setSourceOptions] = useState([]);
-  const [sourceMappingOptions, setSourceMappingOptions] = useState([]);
-  const [destinationOptions, setDestinationOptions] = useState([]);
-  const [destinationMappingOptions, setDestinationMappingOptions] = useState([]);
+  const [connectionOptions, setConnectionOptions] = useState([]);
+  const [mappingOptions, setMappingOptions] = useState([]);
 
   useEffect(() => {
-    /* fetch actual data here */
-    setSourceOptions([
-      {'id': '0', 'name': 'CW'},
-      {'id': '1', 'name': 'SF'}
-    ]);
-    setSourceMappingOptions([
-      {'id': '0', 'name': 'CW to HUD'},
-      {'id': '1', 'name': 'SF to HUD'}
-    ]);
-    setDestinationOptions([
-      {'id': '0', 'name': 'CW'},
-      {'id': '1', 'name': 'SF'}
-    ]);
-    setDestinationMappingOptions([
-      {'id': '0', 'name': 'CW to HUD'},
-      {'id': '1', 'name': 'SF to HUD'}
-    ]);
-  });
+    /* fetch connections for source & destination options */
+    fetcher('connections').then(data => {
+      setConnectionOptions(data);
+    });
+
+    /* fetch data mappings for mapping options */
+    fetcher('mappings').then(data => {
+      setMappingOptions(data);
+    });
+  }, []);
 
   return (
     <Formik
@@ -47,41 +37,41 @@ function TransferForm (props) {
       <Form onSubmit={handleSubmit}>
 
         <div className="form-group">
-          <Label htmlFor="source">Source</Label>
-          <Field id="source" name="source" component={Select} onChange={handleChange} value={values.source}>
+          <Label htmlFor="source_uid">Source</Label>
+          <Field id="source_uid" name="source_uid" component={Select} onChange={handleChange} value={values.source_uid}>
             <option value=""></option>
-            {sourceOptions.map((source) => (
-              <option key={`source-option-${source.id}`} value={source.id}>{source.name}</option>
+            {connectionOptions.map((source) => (
+              <option key={`source-option-${source.uid}`} value={source.uid}>{source.name}</option>
             ))}
           </Field>
         </div>
 
         <div className="form-group">
-          <Label htmlFor="source_mapping">Source Mapping</Label>
-          <Field id="source_mapping" name="source_mapping" component={Select} onChange={handleChange} value={values.source_mapping}>
+          <Label htmlFor="source_mapping_uid">Source Mapping</Label>
+          <Field id="source_mapping_uid" name="source_mapping_uid" component={Select} onChange={handleChange} value={values.source_mapping_uid}>
             <option value=""></option>
-            {sourceMappingOptions.map((mapping) => (
-              <option key={`source-mapping-option-${mapping.id}`} value={mapping.id}>{mapping.name}</option>
+            {mappingOptions.map((mapping) => (
+              <option key={`source-mapping-option-${mapping.uid}`} value={mapping.uid}>{mapping.name}</option>
             ))}
           </Field>
         </div>
 
         <div className="form-group">
-          <Label htmlFor="destination">Destination</Label>
-          <Field id="destination" name="destination" component={Select} onChange={handleChange} value={values.destination}>
+          <Label htmlFor="destination_uid">Destination</Label>
+          <Field id="destination_uid" name="destination_uid" component={Select} onChange={handleChange} value={values.destination_uid}>
             <option value=""></option>
-            {destinationOptions.map((dest) => (
-              <option key={`dest-option-${dest.id}`} value={dest.id}>{dest.name}</option>
+            {connectionOptions.map((dest) => (
+              <option key={`dest-option-${dest.uid}`} value={dest.uid}>{dest.name}</option>
             ))}
           </Field>
         </div>
 
         <div className="form-group">
-          <Label htmlFor="destination_mapping">Destination Mapping</Label>
-          <Field id="destination_mapping" name="destination_mapping" component={Select} onChange={handleChange} value={values.destination_mapping}>
+          <Label htmlFor="destination_mapping_uid">Destination Mapping</Label>
+          <Field id="destination_mapping_uid" name="destination_mapping_uid" component={Select} onChange={handleChange} value={values.destination_mapping_uid}>
             <option value=""></option>
-            {destinationMappingOptions.map((mapping) => (
-              <option key={`dest-mapping-option-${mapping.id}`} value={mapping.id}>{mapping.name}</option>
+            {mappingOptions.map((mapping) => (
+              <option key={`dest-mapping-option-${mapping.uid}`} value={mapping.uid}>{mapping.name}</option>
             ))}
           </Field>
         </div>

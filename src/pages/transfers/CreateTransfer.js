@@ -9,10 +9,10 @@ function CreateTransfer() {
       <div>
         <TransferForm
           initialValues={{
-            source: '',
-            source_mapping: '',
-            destination: '',
-            destination_mapping: '',
+            source_uid: '',
+            source_mapping_uid: '',
+            destination_uid: '',
+            destination_mapping_uid: '',
             frequency: '',
             active: false
           }}

@@ -16,10 +16,10 @@ class EditTransfer extends React.Component {
     fetcher('transfers', this.state.transferId).then(data => {
       // TODO: need to use id value for select fields ... when available in api
       // const initialValues = {
-      //   source: data.source,
-      //   source_mapping: data.source_mapping,
-      //   destination: data.destination,
-      //   destination_mapping: data.destination_mapping,
+      //   source_uid: data.source,
+      //   source_mapping_uid: data.source_mapping,
+      //   destination_uid: data.destination,
+      //   destination_mapping_uid: data.destination_mapping,
       //   frequency: data.frequency,
       //   active: data.active
       // };
