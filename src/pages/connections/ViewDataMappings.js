@@ -12,15 +12,15 @@ const columns = [{
   text: 'Name',
   sort: true
 }, {
-  dataField: 'startformat',
+  dataField: 'start_format',
   text: 'Start Format',
   sort: false
 }, {
- dataField: 'endformat',
+ dataField: 'end_format',
  text: 'End Format',
  sort: false
 }, {
- dataField: 'numoftransfers',
+ dataField: 'num_of_transfers',
  text: '# of Transfers',
  sort: false
 }];
@@ -36,7 +36,7 @@ class ViewConnections extends React.Component {
 
   componentDidMount () {
     fetcher('mappings').then(data => {
-      this.setState({ data })
+;      this.setState({ data })
     })
   }
 

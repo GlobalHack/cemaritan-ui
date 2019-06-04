@@ -4,16 +4,12 @@ import fetcher from '../utils/fetcher';
 
 
 const columns = [{
-  dataField: 'date',
+  dataField: 'datetime',
   text: 'Date',
   sort: true
 }, {
   dataField: 'type',
   text: 'Type',
-  sort: true
-}, {
-  dataField: 'createdbyuser',
-  text: 'Created By',
   sort: true
 }, {
   dataField: 'action',

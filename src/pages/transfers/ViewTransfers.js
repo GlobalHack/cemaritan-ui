@@ -17,7 +17,7 @@ const columns = [{
   text: 'Source',
   sort: true
 }, {
-  dataField: 'sourcemapping',
+  dataField: 'source_mapping',
   text: 'Source Mapping',
   sort: false
 }, {
@@ -25,20 +25,20 @@ const columns = [{
   text: 'Destination',
   sort: true
 }, {
-  dataField: 'destinationmapping',
+  dataField: 'destination_mapping',
   text: 'Destination Mapping',
   sort: false
 }, {
   dataField: 'frequency',
   text: 'Frequency'
 }, {
-  dataField: 'startdatetime',
+  dataField: 'start_datetime',
   text: 'Start Date',
   sort: true
 }, {
-  dataField: 'UID',
+  dataField: 'uid',
   text: 'Edit',
-  formatter: (cell) => <a href="#route-to-transfer">Edit</a>
+  formatter: (cell) => <a href={`edit/${cell}`}>Edit</a>
 }];
 
 class ViewTransfers extends React.Component {

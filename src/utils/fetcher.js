@@ -11,6 +11,7 @@ const organization_id = 1;
 // strings used as fetcher arg to map to each endpoint ex: fetcher('connections')
 const endpoints = {
   connections: `/organizations/${organization_id}/connections`,
+  downloads: `/organizations/${organization_id}/downloads`,
   mappings: `/organizations/${organization_id}/mappings`,
   organizations: `/organizations`,
   transfers: `/organizations/${organization_id}/transfers`,
@@ -18,7 +19,7 @@ const endpoints = {
   histories: `/organizations/${organization_id}/histories`
 }
 
-const fetcher = (endpoint, passedOpts) => {
+const fetcher = (endpoint, objectId, passedOpts) => {
   // check to make sure passed endpoint is valid in endpoints object above
   if (!endpoints[endpoint]) return console.error(`'${endpoint}' is not a valid endpoint!`)
 
@@ -28,7 +29,11 @@ const fetcher = (endpoint, passedOpts) => {
     },
     ...passedOpts
   }
-  const url = `${api}${endpoints[endpoint]}`
+  let url = `${api}${endpoints[endpoint]}`
+
+  if (objectId){
+    url = url + `/${objectId}`;
+  }
 
   return fetch(url, opts)
     .then(res => res.json())
