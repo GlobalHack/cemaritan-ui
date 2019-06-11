@@ -1,37 +1,73 @@
-import React from 'react'
-import { withRouter } from 'react-router-dom'
-import { DropDown, DropDownItem, DropDownItemDisabled, NavContainer, NavItem } from './styled'
+import React from "react";
+import { withRouter } from "react-router-dom";
+import logo from "../../assets/cem.png";
+import {
+  DropDown,
+  DropDownItem,
+  DropDownItemDisabled,
+  NavContainer,
+  NavItem,
+  NavLogo,
+  LogoImg,
+  LogoTxt
+} from "./styled";
 
 class NavBar extends React.Component {
   redirect = route => {
-    this.props.history.push(route)
-  }
+    this.props.history.push(route);
+  };
 
-  render () {
+  render() {
     return (
       <NavContainer>
-        <NavItem onClick={this.redirect.bind(this, '/')}>Home</NavItem>
+        <NavLogo onClick={this.redirect.bind(this, "/")}>
+          <LogoImg src={logo} alt="Cemaritan Logo" />
+          <LogoTxt>Cemaritan</LogoTxt>
+        </NavLogo>
+        <NavItem onClick={this.redirect.bind(this, "/")}>Home</NavItem>
         <NavItem>
           Transfers
           <DropDown>
-            <DropDownItem onClick={this.redirect.bind(this, '/transfers/create')}>Create</DropDownItem>
-            <DropDownItem onClick={this.redirect.bind(this, '/transfers/view')}>View</DropDownItem>
-            <DropDownItem onClick={this.redirect.bind(this, '/transfers/upload')}>Upload</DropDownItem>
+            <DropDownItem
+              onClick={this.redirect.bind(this, "/transfers/create")}
+            >
+              Create
+            </DropDownItem>
+            <DropDownItem onClick={this.redirect.bind(this, "/transfers/view")}>
+              View
+            </DropDownItem>
+            <DropDownItem
+              onClick={this.redirect.bind(this, "/transfers/upload")}
+            >
+              Upload
+            </DropDownItem>
           </DropDown>
         </NavItem>
         <NavItem>
           Connections
           <DropDown>
             <DropDownItemDisabled>Create</DropDownItemDisabled>
-            <DropDownItem onClick={this.redirect.bind(this, '/connections/view')}>View</DropDownItem>
-            <DropDownItem onClick={this.redirect.bind(this, '/connections/data-mappings')}>Data Mappings</DropDownItem>
+            <DropDownItem
+              onClick={this.redirect.bind(this, "/connections/view")}
+            >
+              View
+            </DropDownItem>
+            <DropDownItem
+              onClick={this.redirect.bind(this, "/connections/data-mappings")}
+            >
+              Data Mappings
+            </DropDownItem>
           </DropDown>
         </NavItem>
-        <NavItem onClick={this.redirect.bind(this, '/history')}>History</NavItem>
-        <NavItem onClick={this.redirect.bind(this, '/downloads')}>Downloads</NavItem>
+        <NavItem onClick={this.redirect.bind(this, "/history")}>
+          History
+        </NavItem>
+        <NavItem onClick={this.redirect.bind(this, "/downloads")}>
+          Downloads
+        </NavItem>
       </NavContainer>
-    )
+    );
   }
 }
 
-export default withRouter(NavBar)
+export default withRouter(NavBar);
