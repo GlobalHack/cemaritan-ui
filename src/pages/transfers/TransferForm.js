@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {Formik, Field} from "formik";
-import {Form, Label, CheckboxLabel, Select, SubmitButton} from '../../styled-variables';
+import {Form, Label, CheckboxLabel, Select, SubmitButton, Text} from '../../styled-variables';
 import fetcher from '../../utils/fetcher';
 
 function TransferForm (props) {
@@ -21,7 +21,7 @@ function TransferForm (props) {
 
   return (
     <Formik
-      initialValues={props.intialValues}
+      initialValues={props.initialValues}
       onSubmit={props.onSubmit}
     >
     {({
@@ -35,6 +35,10 @@ function TransferForm (props) {
       /* and other goodies */
     }) => (
       <Form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <Label htmlFor="name">Name</Label>
+          <Field id="name" name="name" component={Text} onChange={handleChange} value={values.name} />
+        </div>
 
         <div className="form-group">
           <Label htmlFor="source_uid">Source</Label>

@@ -16,7 +16,7 @@ const endpoints = {
 const poster = (endpoint, data, passedOpts) => {
   // check to make sure passed endpoint is valid in endpoints object above
   if (!endpoints[endpoint]) return console.error(`'${endpoint}' is not a valid endpoint!`)
-  
+
   const opts = {
     headers: {
       'Content-Type': 'application/json'

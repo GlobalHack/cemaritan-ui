@@ -8,6 +8,10 @@ const columns = [{
   text: 'UID',
   hidden: true
 }, {
+  dataField: 'name',
+  text: 'Name',
+  sort: true
+}, {
   dataField: 'active',
   text: 'Active',
   sort: true,
@@ -52,6 +56,7 @@ class ViewTransfers extends React.Component {
 
   componentDidMount () {
     fetcher('transfers').then(data => {
+      console.log(data);
       this.setState({ data })
     })
   }

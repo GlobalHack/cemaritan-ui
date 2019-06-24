@@ -1,5 +1,12 @@
 import styled from 'styled-components';
 
+export const Banner = styled.div`
+  width: calc(100% - 4rem);
+  padding: 1rem 2rem;
+`;
+
+export const SuccessBanner = styled(Banner)
+
 export const Form = styled.form`
   width: 90%;
   max-width: 18rem;
@@ -25,4 +32,8 @@ export const SubmitButton = styled.button`
   border-color: #03aee2;
   border-radius: 2px;
   padding: 0.25rem 1rem;
+`;
+
+export const Text = styled.input`
+  width: 100%;
 `;
