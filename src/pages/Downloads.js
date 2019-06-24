@@ -1,16 +1,8 @@
 import React from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
+import CModal from '../components/Modal';
+
 import fetcher from '../utils/fetcher'
-
-const startDownload = (e) => {
-  e.preventDefault();
-  const downloadId = e.currentTarget.getAttribute('data-download-link');
-  console.log(`start download with link: ${downloadId}`);
-}
-
-const downloadsColumn = (cell) => (
-  <a href="#link-to-start-download" onClick={startDownload} data-download-link={cell}>Download</a>
-);
 
 const columns = [{
   dataField: 'uid',
@@ -28,19 +20,29 @@ const columns = [{
   dataField: 'transfer_name',
   text: 'Transfer Name',
   sort: true
-}, {
-  dataField: 'file_location_info',
-  text: 'Download',
-  formatter: downloadsColumn
 }];
 
 class Downloads extends React.Component {
   constructor () {
     super()
 
+    const downloadColumn = {
+      dataField: 'uid',
+      text: 'Download',
+      formatter: (cell) => (
+        <button onClick={this.getDownloadLink} data-download-id={cell}>Download</button>
+      )
+    };
+
+    columns.push(downloadColumn);
+
     this.state = {
+      columns: columns,
       data: []
     }
+
+    this.getDownloadLink = this.getDownloadLink.bind(this);
+    this.clearDownload = this.clearDownload.bind(this);
   }
 
   componentDidMount () {
@@ -49,17 +51,44 @@ class Downloads extends React.Component {
     })
   }
 
+  getDownloadLink (e) {
+    e.preventDefault();
+    const downloadId = e.currentTarget.getAttribute('data-download-id');
+
+    fetcher('downloads', `${downloadId}/link`).then((res) => {
+      if (res.download_link) {
+        this.setState({
+          downloadLink: res.download_link,
+          downloadLinkExpiration: res.expiration
+        });
+      }
+    });
+  }
+
+  clearDownload () {
+    this.setState({downloadLink: null, downloadLinkExpiration: null});
+  }
+
   render () {
     return (
       <div>
+        <CModal
+          show={Boolean(this.state.downloadLink)}
+          onHide={this.clearDownload}
+          title="Start Download"
+        >
+            <p>Click <a href={this.state.downloadLink} target="_blank" rel="noopener noreferrer">here</a> to start your file download.</p>
+            <p>{`This link will expire in ${this.state.downloadLinkExpiration} seconds.`}</p>
+        </CModal>
+
         <h1>Downloads</h1>
         <BootstrapTable
           bootstrap4
           keyField='uid'
           data={ this.state.data }
-          columns={ columns }
+          columns={ this.state.columns }
         />
-      </div>
+    </div>
     )
   }
 }
