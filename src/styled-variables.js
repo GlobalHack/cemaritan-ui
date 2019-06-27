@@ -1,12 +1,5 @@
 import styled from 'styled-components';
 
-export const Banner = styled.div`
-  width: calc(100% - 4rem);
-  padding: 1rem 2rem;
-`;
-
-export const SuccessBanner = styled(Banner)
-
 export const Form = styled.form`
   width: 90%;
   max-width: 18rem;
