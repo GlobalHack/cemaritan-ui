@@ -26,7 +26,6 @@ function CreateTransfer() {
     data.created_by = 1;
     data.start_datetime = "2019-07-13 20:42:03";
 
-    console.log(data);
     setPostStatus('pending');
 
     poster('transfers', data).then(res => {
