@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 
 import TransferForm from './TransferForm';
+import CModal from '../../components/Modal';
 import fetcher from '../../utils/fetcher';
 import putter from '../../utils/putter';
 
@@ -33,6 +34,40 @@ const EditTransfer = (props) => {
     }).catch(() => setUpdateStatus('error'))
   };
 
+  /* for modal interactions */
+  const showModal = () => {
+    const showModalUpdateStatus = ['success', 'error'];
+
+    return showModalUpdateStatus.includes(updateStatus);
+  }
+
+  const getModalTitle = () => {
+    if (updateStatus === 'success') {
+      return (
+        <div className="text-success">
+          <span className="oi oi-circle-check" title="success checkmark icon" aria-hidden="true"></span>
+          &nbsp;&nbsp;Updated Transfer Success
+        </div>
+      );
+    }
+    if (updateStatus === 'error') {
+      return (
+        <div className="text-danger">
+          <span className="oi oi-circle-x" title="error checkmark icon" aria-hidden="true"></span>
+          &nbsp; &nbsp; Failed to Update Transfer
+        </div>
+      );
+    }
+  }
+
+  const onHideModal = () => {
+    setUpdateStatus(undefined);
+
+    if (updateStatus === 'success') {
+      // TODO: maybe navigate here or clear form?
+    }
+  }
+
   return (
     <section>
       <h1>Edit Transfers</h1>
@@ -44,12 +79,12 @@ const EditTransfer = (props) => {
           />
         }
       </div>
-      {updateStatus === 'success' && (
-        <div>Updated Transfer Success</div>
-      )}
-      {updateStatus === 'error' && (
-        <div>Failed to Update Transfer</div>
-      )}
+      <CModal
+        show={showModal()}
+        onHide={onHideModal}
+        title={getModalTitle()}
+      >
+      </CModal>
     </section>
   );
 }
