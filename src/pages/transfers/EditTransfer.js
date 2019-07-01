@@ -1,10 +1,13 @@
 import React, {useState, useEffect} from "react";
 
 import TransferForm from './TransferForm';
-import CModal from '../../components/Modal';
+import ValidationModal from '../../components/ValidationModal';
+
 import fetcher from '../../utils/fetcher';
 import putter from '../../utils/putter';
 
+const SUCCESS_MESSAGE = 'You have successfully updated your transfer. Please continue with an option below.';
+const FAIL_MESSAGE = 'Something went wrong when trying to update your transfer. Please close this dialog and try again.';
 
 const EditTransfer = (props) => {
   const [initValues, setInitValues] = useState(null)
@@ -41,31 +44,8 @@ const EditTransfer = (props) => {
     return showModalUpdateStatus.includes(updateStatus);
   }
 
-  const getModalTitle = () => {
-    if (updateStatus === 'success') {
-      return (
-        <div className="text-success">
-          <span className="oi oi-circle-check" title="success checkmark icon" aria-hidden="true"></span>
-          &nbsp;&nbsp;Updated Transfer Success
-        </div>
-      );
-    }
-    if (updateStatus === 'error') {
-      return (
-        <div className="text-danger">
-          <span className="oi oi-circle-x" title="error checkmark icon" aria-hidden="true"></span>
-          &nbsp; &nbsp; Failed to Update Transfer
-        </div>
-      );
-    }
-  }
-
   const onHideModal = () => {
     setUpdateStatus(undefined);
-
-    if (updateStatus === 'success') {
-      // TODO: maybe navigate here or clear form?
-    }
   }
 
   return (
@@ -79,12 +59,17 @@ const EditTransfer = (props) => {
           />
         }
       </div>
-      <CModal
+      <ValidationModal
         show={showModal()}
         onHide={onHideModal}
-        title={getModalTitle()}
-      >
-      </CModal>
+        title={updateStatus === 'success' ? 'Update Transfer Success' : 'Failed to Update Transfer'}
+        text={updateStatus === 'success' ? SUCCESS_MESSAGE : FAIL_MESSAGE}
+        success={updateStatus === 'success'}
+        successActions={[
+          {link: '/transfers', label: 'View Transfers'},
+          {onClick: onHideModal, label: 'Keep Editing Transfer'}
+        ]}
+      />
     </section>
   );
 }
