@@ -1,8 +1,7 @@
 import React, {useState} from "react";
-import {Link} from 'react-router-dom';
 
-import CModal from '../../components/Modal';
 import TransferForm from './TransferForm';
+import ValidationModal from '../../components/ValidationModal';
 import poster from '../../utils/poster';
 
 const initValues = {
@@ -14,6 +13,10 @@ const initValues = {
   frequency: '',
   active: false
 };
+
+const SUCCESS_MESSAGE = 'You have successfully created a new transfer. Please continue with an option below.';
+const FAIL_MESSAGE = 'Something went wrong when attempting to create your transfer. Please close this dialog and try again.';
+
 
 function CreateTransfer() {
   const [postStatus, setPostStatus] = useState();
@@ -43,21 +46,8 @@ function CreateTransfer() {
     return showModalPostStatus.includes(postStatus);
   }
 
-  const getModalTitle = () => {
-    if (postStatus === 'success') {
-      return 'Successfully Created Transfer';
-    }
-    if (postStatus === 'error') {
-      return 'Error Creating Transfer';
-    }
-  }
-
   const onHideModal = () => {
     setPostStatus(undefined);
-
-    if (postStatus === 'success') {
-      // TODO: maybe navigate here or clear form?
-    }
   }
 
   return (
@@ -69,18 +59,17 @@ function CreateTransfer() {
           onSubmit={postTransfer}
         />
       </div>
-      <CModal
+      <ValidationModal
         show={showModal()}
         onHide={onHideModal}
-        title={getModalTitle()}
-      >
-        {postStatus === 'success' &&
-          <div>To view your new transfer navigate to the <Link to="/transfers">View Transfer Page</Link>. Or <Link to="/transfers/create">create another transfer</Link></div>
-        }
-        {postStatus === 'error' && (
-          <div>Something went wrong when attempting to create your transfer. Please close this dialog and try again.</div>
-        )}
-      </CModal>
+        title={postStatus === 'success' ? 'Create Transfer Success' : 'Failed to Create Transfer'}
+        text={postStatus === 'success' ? SUCCESS_MESSAGE : FAIL_MESSAGE}
+        success={postStatus === 'success'}
+        successActions={[
+          {link: '/transfers', label: 'View Transfers'},
+          {onClick: onHideModal, label: 'Create Another Transfer'}
+        ]}
+      />
     </section>
   );
 }
