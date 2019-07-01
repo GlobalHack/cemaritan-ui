@@ -9,6 +9,7 @@ import putter from '../../utils/putter';
 const SUCCESS_MESSAGE = 'You have successfully updated your transfer. Please continue with an option below.';
 const FAIL_MESSAGE = 'Something went wrong when trying to update your transfer. Please close this dialog and try again.';
 
+
 const EditTransfer = (props) => {
   const [initValues, setInitValues] = useState(null)
   const [transferId] = useState(props.match.params.transferId)
@@ -23,16 +24,10 @@ const EditTransfer = (props) => {
   }, []);
 
   const updateTransfer = (values) => {
-    // data.organization = 'OLI';
-    // data.created_by = 1;
-    // data.start_datetime = "2019-07-13 20:42:03";
 
-    console.log(values);
     setUpdateStatus('pending');
 
     putter('transfers', transferId, values).then(res => {
-      console.log('reached then...');
-      console.log(res);
       setUpdateStatus('success');
     }).catch(() => setUpdateStatus('error'))
   };
