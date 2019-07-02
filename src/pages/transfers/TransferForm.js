@@ -1,5 +1,8 @@
 import React, {useState, useEffect} from "react";
+
 import {Formik, Field} from "formik";
+
+import FormikDatetimePicker from '../../components/FormikDatetimePicker';
 import {Form, Label, CheckboxLabel, Select, SubmitButton, Text} from '../../styled-variables';
 import fetcher from '../../utils/fetcher';
 
@@ -78,6 +81,16 @@ function TransferForm (props) {
               <option key={`dest-mapping-option-${mapping.uid}`} value={mapping.uid}>{mapping.name}</option>
             ))}
           </Field>
+        </div>
+
+        <div className="form-group">
+          <Label htmlFor="start_datetime">Start Date &amp; Time</Label>
+          <Field
+            id="start_datetime"
+            name="start_datetime"
+            value={values.start_datetime}
+            component={FormikDatetimePicker}
+          />
         </div>
 
         <div className="form-group">

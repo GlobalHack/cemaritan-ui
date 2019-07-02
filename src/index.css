@@ -1,4 +1,5 @@
 @import "../node_modules/react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
+@import "../node_modules/react-datepicker/dist/react-datepicker-cssmodules.css";
 
 :root {
   --navbar-height: 60px;
