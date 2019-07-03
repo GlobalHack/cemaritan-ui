@@ -10,8 +10,23 @@ const organization_id = 1;
 
 // strings used as poster arg to map to each endpoint ex: poster('connections')
 const endpoints = {
-  transfers: `/organizations/${organization_id}/transfers`
+  transfers: `/organizations/${organization_id}/transfers`,
+  uploads: `/organizations/${organization_id}/uploads`
 }
+
+export const uploadToUrl = (url, data, passedOpts) => {
+  const opts = {
+    method: 'POST',
+    body: data,
+    ...passedOpts
+  }
+
+  return fetch(url, opts)
+    .then(res => {
+      if (!res.ok) { throw Error(res.statusText) }
+      return true;
+    });
+};
 
 const poster = (endpoint, data, passedOpts) => {
   // check to make sure passed endpoint is valid in endpoints object above
@@ -28,7 +43,10 @@ const poster = (endpoint, data, passedOpts) => {
   const url = `${api}${endpoints[endpoint]}`
 
   return fetch(url, opts)
-    .then(res => res.json())
+    .then(res => {
+      if (!res.ok) { throw Error(`failed to post to ${endpoint}`) }
+      return res.json()
+    })
     .catch(console.error)
 }
 

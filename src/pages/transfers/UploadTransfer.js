@@ -1,9 +1,20 @@
 import React, {useState, useEffect} from "react";
 import {Formik, Field} from "formik";
+
 import {Form, Label, Select, SubmitButton} from '../../styled-variables';
+
+import FormikUploadFile from '../../components/FormikUploadFile';
+import ValidationModal from '../../components/ValidationModal';
+
 import fetcher from '../../utils/fetcher';
+import poster from '../../utils/poster';
+
+const SUCCESS_MESSAGE = 'You have successfully uploaded a transfer. Please continue with an option below.';
+const FAIL_MESSAGE = 'Something went wrong when attempting to upload your transfer. Please close this dialog and try again.';
+
 
 function UploadTransfer() {
+  const [postStatus, setPostStatus] = useState([]);
   const [connectionOptions, setConnectionOptions] = useState([]);
   const [mappingOptions, setMappingOptions] = useState([]);
 
@@ -19,20 +30,45 @@ function UploadTransfer() {
     });
   }, []);
 
+  const postUpload = (data) => {
+    // TODO: organization, we won't need... will be handled by the backend ...
+    // TODO: need to attach created_by from global context?...
+    data.organization = 'OLI';
+    data.created_by = 1;
+
+    setPostStatus('pending');
+
+    poster('uploads', data).then(res => {
+        if (res) {
+            setPostStatus('success');
+        } else {
+          setPostStatus('error');
+        }
+    }).catch(() => setPostStatus('error'));
+  };
+
+  const showModal = () => {
+    const showModalPostStatus = ['success', 'error'];
+
+    return showModalPostStatus.includes(postStatus);
+  }
+
+  const onHideModal = () => {
+    setPostStatus(undefined);
+  }
+
   return (
     <section>
       <h1>Upload Transfer</h1>
       <div>
         <Formik
           initialValues={{
-            sourceFile: null,
+            location: null,
             source_mapping_uid: '',
             destination_uid: '',
             destination_mapping_uid: ''
           }}
-          onSubmit={(values) => {
-            console.log(values);
-          }}
+          onSubmit={postUpload}
         >
         {({
           values,
@@ -47,8 +83,12 @@ function UploadTransfer() {
           <Form onSubmit={handleSubmit}>
 
             <div className="form-group">
-              <Label htmlFor="sourceFile">Source File</Label>
-              <input id="sourceFile" name="sourceFile" type="file" onChange={handleChange} className="form-control"
+              <Label htmlFor="location">Source File</Label>
+              <Field
+                id="location"
+                name="location"
+                value={values.location}
+                component={FormikUploadFile}
               />
             </div>
 
@@ -89,6 +129,17 @@ function UploadTransfer() {
         )}
         </Formik>
       </div>
+      <ValidationModal
+        show={showModal()}
+        onHide={onHideModal}
+        title={postStatus === 'success' ? 'Upload Transfer Success' : 'Failed to Upload Transfer'}
+        text={postStatus === 'success' ? SUCCESS_MESSAGE : FAIL_MESSAGE}
+        success={postStatus === 'success'}
+        successActions={[
+          {link: '/transfers', label: 'View Transfers'},
+          {onClick: onHideModal, label: 'Upload Another Transfer'}
+        ]}
+      />
     </section>
   );
 }

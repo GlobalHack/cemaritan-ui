@@ -12,11 +12,12 @@ const organization_id = 1;
 const endpoints = {
   connections: `/organizations/${organization_id}/connections`,
   downloads: `/organizations/${organization_id}/downloads`,
+  histories: `/organizations/${organization_id}/histories`,
   mappings: `/organizations/${organization_id}/mappings`,
   organizations: `/organizations`,
   transfers: `/organizations/${organization_id}/transfers`,
-  users: `/organizations/${organization_id}/users`,
-  histories: `/organizations/${organization_id}/histories`
+  uploads: `/organizations/${organization_id}/uploads`,
+  users: `/organizations/${organization_id}/users`
 }
 
 const fetcher = (endpoint, objectId, passedOpts) => {
