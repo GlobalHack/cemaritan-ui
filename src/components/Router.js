@@ -16,6 +16,8 @@ function Router({ isAuthenticated, handleAuthentication }) {
       </Switch>
     ) : (
       <Switch>
+        {/*TODO remove this login path*/}
+        <Route path="/login" render={() => <Login isAuthenticated={isAuthenticated} handleAuthentication={handleAuthentication} />} />
         <Route path="/connections" component={Connections} />
         <Route path="/history" component={History} />
         <Route path="/transfers" component={Transfers} />

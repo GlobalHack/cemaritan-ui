@@ -26,7 +26,7 @@ class Login extends React.Component {
         const token = result.credential.accessToken
         // The signed-in user info.
         const user = result.user
-        console.log('SUCCESS!', this.props)
+        console.log('SUCCESS!', result)
         return this.props.handleAuthentication(user)
       .then((res) => {
         console.log('res', res)
