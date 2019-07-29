@@ -17,16 +17,19 @@ const endpoints = {
   organizations: `/organizations`,
   transfers: `/organizations/${organization_id}/transfers`,
   uploads: `/organizations/${organization_id}/uploads`,
-  users: `/organizations/${organization_id}/users`
+  users: `/organizations/${organization_id}/users`,
+  user: `/user`
 }
 
-const fetcher = (endpoint, objectId, passedOpts) => {
+const fetcher = (endpoint, objectId, passedOpts, authToken) => {
   // check to make sure passed endpoint is valid in endpoints object above
   if (!endpoints[endpoint]) return console.error(`'${endpoint}' is not a valid endpoint!`)
 
   const opts = {
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': authToken,
+      'x-dev-api-key': 'dummystringwillreplace'
     },
     ...passedOpts
   }

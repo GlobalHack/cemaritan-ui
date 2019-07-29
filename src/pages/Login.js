@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom'
 // Firebase App (the core Firebase SDK) is always required and must be listed first
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
+import { resolve } from 'dns';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -26,12 +27,19 @@ class Login extends React.Component {
         const token = result.credential.accessToken
         // The signed-in user info.
         const user = result.user
-        console.log('SUCCESS!', this.props)
-        return this.props.handleAuthentication(user)
-      .then((res) => {
+        // The value to send with all api requests
+        // user.getIdToken().then(idToken => console.log(idToken));
+        // console.log('refresh token', userIdToken);
+
+       user.getIdToken().then(userToken => {
+        return this.props.handleAuthentication(userToken)
+       }).catch(err => console.log(err))
+        
+        
+        // return this.props.handleAuthentication(user)
+      }).then((res) => {
         console.log('res', res)
         this.props.history.push('/')
-      })
       }).catch(error => {
         // Handle Errors here.
         const errorCode = error.code

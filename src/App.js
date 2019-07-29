@@ -4,20 +4,37 @@ import './App.css'
 import NavBar from './components/NavBar'
 import Router from './components/Router'
 
+import fetcher from './utils/fetcher'
+
 class App extends Component {
   constructor () {
     super()
 
     this.state = {
-      isAuthenticated: true, // TODO default this to false
+      isAuthenticated: false, // TODO default this to false
+      userIdToken: null,
       user: null
     }
+
+    this.handleAuthentication = this.handleAuthentication.bind(this);
+    this.getUser = this.getUser.bind(this);
   }
 
-  handleAuthentication = user => {
+  handleAuthentication = userIdToken => {
     console.log('handleAuthentication')
+    this.getUser(userIdToken);
     return new Promise((resolve, reject) => {
-      this.setState({ isAuthenticated: true, user }, () => resolve())
+      this.setState({ isAuthenticated: true}, () => resolve())
+    })
+  }
+
+  getUser = (userIdToken) => {
+    this.setState({userIdToken});
+
+    // fetch user from db here...
+    fetcher('user', null, null, userIdToken).then(data => {
+      console.log('successful user request');
+      console.log(data);
     })
   }
 
