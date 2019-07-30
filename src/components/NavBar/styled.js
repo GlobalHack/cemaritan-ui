@@ -5,9 +5,11 @@ export const NavContainer = styled.div`
   background: #eeeeee;
   text-align: center;
   width: 100%;
+  height: 50px;
   z-index: 99;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   box-shadow: 0 2px 5px -1px rgba(0, 0, 0, 0.25);
 `;
 
@@ -30,7 +32,6 @@ export const NavLogo = styled.div`
   margin-left: 20px;
   cursor: pointer;
   align-items: center;
-  width: 100%;
 `;
 
 export const LogoImg = styled.img`

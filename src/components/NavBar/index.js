@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { withRouter } from "react-router-dom";
 import logo from "../../assets/cem.png";
 import {
@@ -11,33 +11,28 @@ import {
   LogoImg,
   LogoTxt
 } from "./styled";
+import { UserContext } from '../../context/UserContext'
 
-class NavBar extends React.Component {
-  redirect = route => {
-    this.props.history.push(route);
-  };
+const NavLinks = (props) => {
+  const { user } = useContext(UserContext);
 
-  render() {
+  if (user) {
     return (
-      <NavContainer>
-        <NavLogo onClick={this.redirect.bind(this, "/")}>
-          <LogoImg src={logo} alt="Cemaritan Logo" />
-          <LogoTxt>Cemaritan</LogoTxt>
-        </NavLogo>
-        <NavItem onClick={this.redirect.bind(this, "/")}>Home</NavItem>
+      <div>
+        <NavItem onClick={props.redirect("/")}>Home</NavItem>
         <NavItem>
           Transfers
           <DropDown>
             <DropDownItem
-              onClick={this.redirect.bind(this, "/transfers/create")}
+              onClick={props.redirect("/transfers/create")}
             >
               Create
             </DropDownItem>
-            <DropDownItem onClick={this.redirect.bind(this, "/transfers/view")}>
+            <DropDownItem onClick={props.redirect("/transfers/view")}>
               View
             </DropDownItem>
             <DropDownItem
-              onClick={this.redirect.bind(this, "/transfers/upload")}
+              onClick={props.redirect("/transfers/upload")}
             >
               Upload
             </DropDownItem>
@@ -48,23 +43,48 @@ class NavBar extends React.Component {
           <DropDown>
             <DropDownItemDisabled>Create</DropDownItemDisabled>
             <DropDownItem
-              onClick={this.redirect.bind(this, "/connections/view")}
+              onClick={props.redirect("/connections/view")}
             >
               View
             </DropDownItem>
             <DropDownItem
-              onClick={this.redirect.bind(this, "/connections/data-mappings")}
+              onClick={props.redirect("/connections/data-mappings")}
             >
               Data Mappings
             </DropDownItem>
           </DropDown>
         </NavItem>
-        <NavItem onClick={this.redirect.bind(this, "/history")}>
+        <NavItem onClick={props.redirect("/history")}>
           History
         </NavItem>
-        <NavItem onClick={this.redirect.bind(this, "/downloads")}>
+        <NavItem onClick={props.redirect("/downloads")}>
           Downloads
         </NavItem>
+      </div>
+    )
+  }
+  return (<div></div>)
+}
+
+class NavBar extends React.Component {
+  constructor() {
+    super()
+
+    this.redirect = this.redirect.bind(this);
+  }
+
+  redirect = route => () => {
+    this.props.history.push(route);
+  };
+
+  render () {
+    return (
+      <NavContainer>
+        <NavLogo onClick={this.redirect("/")}>
+          <LogoImg src={logo} alt="Cemaritan Logo" />
+          <LogoTxt>Cemaritan</LogoTxt>
+        </NavLogo>
+        <NavLinks redirect={this.redirect} />
       </NavContainer>
     );
   }

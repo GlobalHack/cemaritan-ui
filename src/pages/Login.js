@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { withRouter } from 'react-router-dom'
+
 // Firebase App (the core Firebase SDK) is always required and must be listed first
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
-import { resolve } from 'dns';
+// import { resolve } from 'dns';
+
+import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
+
+import { AuthContext } from '../context/AuthContext'
+import { UserContext } from '../context/UserContext'
+import fetch from '../utils/fetcher'
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -17,29 +25,46 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig)
 
-class Login extends React.Component {
-  launchAuthentication = () => {
+const Login = (props) => {
+  const { auth, setAuth } = useContext(AuthContext);
+  const { setUser } = useContext(UserContext);
+  const [logInStatus, setLogInStatus] = useState();
+
+  // only call useEffect if auth changes...
+  useEffect(
+    () => {
+      if (auth) {
+        fetch('user', null, null, auth).then(res => {
+          if (res) {
+            // set user in global context
+            setUser(res)
+            setLogInStatus('success')
+            return;
+          }
+        }).then(() => {
+          props.history.push('/')
+        });
+      }
+    },
+    [auth]
+  )
+
+  const launchAuthentication = () => {
     const provider = new firebase.auth.GoogleAuthProvider()
+
+    setLogInStatus('pending');
 
     firebase.auth().signInWithPopup(provider)
       .then(result => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const token = result.credential.accessToken
         // The signed-in user info.
         const user = result.user
-        // The value to send with all api requests
-        // user.getIdToken().then(idToken => console.log(idToken));
-        // console.log('refresh token', userIdToken);
 
-       user.getIdToken().then(userToken => {
-        return this.props.handleAuthentication(userToken)
-       }).catch(err => console.log(err))
+        // The value to send with all api requests
+        user.getIdToken().then(userToken => {
+          // set global auth context
+          setAuth(userToken)
+        }).catch(err => console.log(err))
         
-        
-        // return this.props.handleAuthentication(user)
-      }).then((res) => {
-        console.log('res', res)
-        this.props.history.push('/')
       }).catch(error => {
         // Handle Errors here.
         const errorCode = error.code
@@ -52,12 +77,36 @@ class Login extends React.Component {
       })
   }
 
-  render () {
-    console.log('PROPS', this.props)
-    return (
-      <button onClick={this.launchAuthentication}>gotta authenticate, yo!</button>
-    )
-  }
+  const stillLoading = Boolean(logInStatus === 'pending' || auth)
+
+  return (
+    <div className="text-center">
+      <h2>Welcome to Cemaritan!</h2>
+      <p>Please login to get started.</p>
+      <Button
+        variant="primary"
+        disabled={stillLoading}
+        onClick={launchAuthentication}
+      >
+        { stillLoading ? (
+          <span>
+            <Spinner
+              as="span"
+              animation="border"
+              size="sm"
+              role="status"
+              aria-hidden="true"
+            />
+            Logging In
+          </span>
+        ) : (
+          <span>Login with Gmail</span>
+        )}
+          
+      </Button>
+      
+    </div>
+  )
 }
 
 export default withRouter(Login)

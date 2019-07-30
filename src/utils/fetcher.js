@@ -28,8 +28,8 @@ const fetcher = (endpoint, objectId, passedOpts, authToken) => {
   const opts = {
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': authToken,
-      'x-dev-api-key': 'dummystringwillreplace'
+      'Authorization': authToken
+      // 'x-dev-api-key': 'dummystringwillreplace'
     },
     ...passedOpts
   }
