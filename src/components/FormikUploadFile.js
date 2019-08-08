@@ -1,13 +1,15 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 
+import {AuthContext} from '../context/AuthContext';
 import fetcher from '../utils/fetcher';
 import {uploadToUrl} from '../utils/poster';
 
 
 const FormikUploadFile = ({field, form}) => {
+  const { auth } = useContext(AuthContext);
   const [uploadStatus, setUploadStatus] = useState();
   const [fileName, setFileName] = useState();
 
@@ -20,7 +22,7 @@ const FormikUploadFile = ({field, form}) => {
     setFileName(file.name);
 
     /* get secure upload link */
-    fetcher('uploads').then(secureUploadInfo => {
+    fetcher('uploads', auth).then(secureUploadInfo => {
       setUploadStatus('pending');
 
       // set the filename...

@@ -29,20 +29,28 @@ const Login = (props) => {
   const { auth, setAuth } = useContext(AuthContext);
   const { setUser } = useContext(UserContext);
   const [logInStatus, setLogInStatus] = useState();
+  const [error, setError] = useState(null);
 
   // only call useEffect if auth changes...
   useEffect(
     () => {
       if (auth) {
-        fetch('user', null, null, auth).then(res => {
-          if (res) {
+        fetch('user', auth).then(res => {
+          if (res && res.ok) {
             // set user in global context
-            setUser(res)
+            console.log('--- RECEIVED USER:');
+            console.log(res);
             setLogInStatus('success')
+            setUser(res)
             return;
           }
+          console.error(res);
+          throw Error("API ERROR: failed to fetch user"); 
         }).then(() => {
           props.history.push('/')
+        }).catch(err => {
+          setError("We could not find your user information. Please try again or notify your admin.");
+          setLogInStatus('error');
         });
       }
     },
@@ -62,22 +70,24 @@ const Login = (props) => {
         // The value to send with all api requests
         user.getIdToken().then(userToken => {
           // set global auth context
+          if (!userToken){
+            throw Error("failed to get user token");
+          }
           setAuth(userToken)
+          
         }).catch(err => console.log(err))
         
-      }).catch(error => {
-        // Handle Errors here.
-        const errorCode = error.code
-        const errorMessage = error.message
-        // The email of the user's account used.
-        const email = error.email
-        // The firebase.auth.AuthCredential type that was used.
-        const credential = error.credential
-        // ...
+      }).catch(error => {        
+        const errorMessage = error.message;
+        // const errorCode = error.code;
+        // const email = error.email; // The email of the user's account used.
+        // const credential = error.credential; // The firebase.auth.AuthCredential type that was used.
+        setError(`Firebase auth fail: ${errorMessage}`);
+        setLogInStatus('error');
       })
   }
 
-  const stillLoading = Boolean(logInStatus === 'pending' || auth)
+  const stillLoading = Boolean(logInStatus === 'pending' || (auth && !error))
 
   return (
     <div className="text-center">
@@ -102,8 +112,10 @@ const Login = (props) => {
         ) : (
           <span>Login with Gmail</span>
         )}
-          
       </Button>
+      { error && (
+       <div variant="error">{error}</div> 
+      )}
       
     </div>
   )

@@ -1,5 +1,7 @@
-import React from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
+
+import { AuthContext } from '../../context/AuthContext';
 import fetcher from '../../utils/fetcher'
 
 
@@ -21,34 +23,27 @@ const columns = [{
   sort: true
 }];
 
-class ViewConnections extends React.Component {
-  constructor () {
-    super()
+const ViewConnections = () => {
+  const {auth} = useContext(AuthContext);
+  const [data, setData] = useState();
 
-    this.state = {
-      data: []
-    }
-  }
-
-  componentDidMount () {
-    fetcher('connections').then(data => {
-      this.setState({ data })
+  useEffect(() => {
+    fetcher('connections', auth).then(data => {
+      setData(data);
     })
-  }
+  });
 
-  render () {
-    return (
-      <div>
-        <h1>View Connections</h1>
-        <BootstrapTable
-          bootstrap4
-          keyField='uid'
-          data={ this.state.data }
-          columns={ columns }
-        />
-      </div>
-    )
-  }
+  return (
+    <div>
+      <h1>View Connections</h1>
+      <BootstrapTable
+        bootstrap4
+        keyField='uid'
+        data={ data }
+        columns={ columns }
+      />
+    </div>
+  )
 }
 
 export default ViewConnections

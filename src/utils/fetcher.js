@@ -1,9 +1,9 @@
-import config from '../config'
+import config from "../config";
 
 // env is harcoded until we have two environments
-const ENV = 'nonprod'
+const ENV = "nonprod";
 // this api base url is pulled from the config file imported above
-const api = config[ENV].api
+const api = config[ENV].api;
 
 // organizations (options: 1, 2, 3)
 const organization_id = 1;
@@ -19,29 +19,34 @@ const endpoints = {
   uploads: `/organizations/${organization_id}/uploads`,
   users: `/organizations/${organization_id}/users`,
   user: `/user`
-}
+};
 
-const fetcher = (endpoint, objectId, passedOpts, authToken) => {
+const fetcher = (endpoint, authToken, objectId, passedOpts) => {
   // check to make sure passed endpoint is valid in endpoints object above
-  if (!endpoints[endpoint]) return console.error(`'${endpoint}' is not a valid endpoint!`)
+  if (!endpoints[endpoint])
+    return console.error(`'${endpoint}' is not a valid endpoint!`);
 
+  console.log(authToken);
   const opts = {
     headers: {
-      'Content-Type': 'application/json',
-      'Authorization': authToken
+      "Content-Type": "application/json",
+      Authorization: authToken
       // 'x-dev-api-key': 'dummystringwillreplace'
     },
     ...passedOpts
-  }
-  let url = `${api}${endpoints[endpoint]}`
+  };
+  let url = `${api}${endpoints[endpoint]}`;
 
-  if (objectId){
+  if (objectId) {
     url = url + `/${objectId}`;
   }
 
   return fetch(url, opts)
     .then(res => res.json())
-    .catch(console.error)
-}
+    .catch(err => {
+      console.error(err);
+      throw err;
+    });
+};
 
-export default fetcher
+export default fetcher;
