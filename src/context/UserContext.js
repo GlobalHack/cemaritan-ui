@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 
-const initialState = null;
+const initialState = {
+  id: 1,
+  organization_id: 1
+};
 
 const UserContext = React.createContext();
 
