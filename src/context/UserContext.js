@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 
 const initialState = {
-  id: 1,
-  organization_id: 1
+  uid: 1,
+  name: "Katie Mathews",
+  organization: 1,
+  created_date: "2019-01-01",
+  authToken: "BLABHABHA"
 };
 
 const UserContext = React.createContext();

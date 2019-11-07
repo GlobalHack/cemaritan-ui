@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
-import fetcher from "../utils/fetcher";
+
+import { UserContext } from "../context/UserContext";
+import { fetchByOrg } from "../utils/fetcher";
 
 const columns = [
   {
@@ -20,38 +22,38 @@ const columns = [
   }
 ];
 
-class History extends React.Component {
-  constructor() {
-    super();
+const History = () => {
+  const { user } = useContext(UserContext);
+  const [histories, setHistories] = useState();
+  const [error, setError] = useState();
 
-    this.state = {
-      data: []
-    };
-  }
+  useEffect(() => {
+    if (user) {
+      setError();
+      fetchByOrg("/histories", user)
+        .then(data => {
+          setHistories(data);
+        })
+        .catch(() => {
+          setError("Failed to fetch history");
+        });
+    }
+  }, [user]);
 
-  componentDidMount() {
-    fetcher("histories").then(data => {
-      this.setState({ data });
-    });
-  }
-
-  render() {
-    return (
-      <div>
-        <h1>History</h1>
+  return (
+    <div>
+      <h1>History</h1>
+      {error && <p>{error}</p>}
+      {histories && (
         <BootstrapTable
           bootstrap4
           keyField="uid"
-          data={this.state.data}
+          data={histories}
           columns={columns}
         />
-      </div>
-    );
-  }
-}
-const History = ({ user }) => {
-  // get user
-  const { histories, error } = useHistory(user);
+      )}
+    </div>
+  );
 };
 
 export default History;
