@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 
-import { UserContext } from "../context/UserContext";
-import { fetchByOrg } from "../utils/fetcher";
+import { useDataByUser } from "../utils/fetcher";
 
 const columns = [
   {
@@ -23,27 +22,13 @@ const columns = [
 ];
 
 const History = () => {
-  const { user } = useContext(UserContext);
-  const [histories, setHistories] = useState();
-  const [error, setError] = useState();
-
-  useEffect(() => {
-    if (user) {
-      setError();
-      fetchByOrg("/histories", user)
-        .then(data => {
-          setHistories(data);
-        })
-        .catch(() => {
-          setError("Failed to fetch history");
-        });
-    }
-  }, [user]);
+  const { data: histories, error } = useDataByUser("/histories");
 
   return (
     <div>
       <h1>History</h1>
       {error && <p>{error}</p>}
+      {!histories && <p>loading...</p>}
       {histories && (
         <BootstrapTable
           bootstrap4

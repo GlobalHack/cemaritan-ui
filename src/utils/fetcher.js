@@ -1,4 +1,7 @@
+import { useContext, useEffect, useState } from "react";
+
 import config from "../config";
+import { UserContext } from "../context/UserContext";
 
 // env is harcoded until we have two environments
 const ENV = "nonprod";
@@ -47,6 +50,31 @@ export const fetchByOrg = (endpoint, user, passedOpts) => {
       console.error(err);
       throw err;
     });
+};
+
+export const useDataByUser = (endpoint, passedOpts) => {
+  const { user } = useContext(UserContext);
+  const [data, setData] = useState();
+  const [error, setError] = useState();
+
+  useEffect(() => {
+    if (user) {
+      const opts = {
+        headers: headers(user.authToken),
+        ...passedOpts
+      };
+
+      fetch(`${api}/organizations/${user.organization}${endpoint}`, opts)
+        .then(res => res.json())
+        .then(data => setData(data))
+        .catch(err => {
+          console.error(err);
+          setError(`Failed to fetch ${endpoint}.`);
+        });
+    }
+  }, [user, endpoint]);
+
+  return { data, error };
 };
 
 // TODO: delete from here on...
