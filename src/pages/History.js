@@ -1,7 +1,7 @@
 import React from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 
-import { useDataByUser } from "../utils/fetcher";
+import { useDataFromUserOrg } from "../hooks/useDataFromUserOrg";
 
 const columns = [
   {
@@ -22,7 +22,7 @@ const columns = [
 ];
 
 const History = () => {
-  const { data: histories, error } = useDataByUser("/histories");
+  const { data: histories, error } = useDataFromUserOrg("/histories");
 
   return (
     <div>

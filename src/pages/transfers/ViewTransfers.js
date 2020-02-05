@@ -1,6 +1,6 @@
 import React from "react";
 import BootstrapTable from "react-bootstrap-table-next";
-import { useDataByUser } from "../../utils/fetcher";
+import { useDataFromUserOrg } from "../../hooks/useDataFromUserOrg";
 
 const columns = [
   {
@@ -56,7 +56,7 @@ const columns = [
 ];
 
 const ViewTransfers = () => {
-  const { data: transfers, error } = useDataByUser("/transfers");
+  const { data: transfers, error } = useDataFromUserOrg("/transfers");
 
   return (
     <div>
