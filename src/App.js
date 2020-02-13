@@ -1,28 +1,24 @@
-import React from 'react'
-import { BrowserRouter } from 'react-router-dom'
-import './App.css'
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import "./App.css";
 
-import NavBar from './components/NavBar'
-import Router from './components/Router'
-import { AuthProvider } from './context/AuthContext'
-import { UserProvider } from './context/UserContext'
+import NavBar from "./components/NavBar";
+import Router from "./components/Router";
+import StoreProvider from "./context/StoreProvider";
 
 const App = () => {
-
   return (
-    <AuthProvider>
-      <UserProvider>
-        <BrowserRouter>
-          <div>
-            <NavBar />
-            <div className="page-wrapper">
-              <Router />
-            </div>
+    <StoreProvider>
+      <BrowserRouter>
+        <div>
+          <NavBar />
+          <div className="page-wrapper">
+            <Router />
           </div>
-        </BrowserRouter>
-      </UserProvider>
-    </AuthProvider>
-  )
-}
+        </div>
+      </BrowserRouter>
+    </StoreProvider>
+  );
+};
 
-export default App
+export default App;

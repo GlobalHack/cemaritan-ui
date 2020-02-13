@@ -1,14 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 
-import { AuthContext } from "../context/AuthContext";
 import fetcher from "../utils/fetcher";
 import { uploadToUrl } from "../utils/poster";
+import useStoreState from "../hooks/useStoreState";
 
 const FormikUploadFile = ({ field, form }) => {
-  const { auth } = useContext(AuthContext);
+  const { auth } = useStoreState();
   const [uploadStatus, setUploadStatus] = useState();
   const [fileName, setFileName] = useState();
 

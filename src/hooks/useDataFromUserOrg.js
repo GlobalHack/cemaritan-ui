@@ -1,6 +1,6 @@
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../context/UserContext";
+import { useEffect, useState } from "react";
 import config from "../config";
+import useStoreState from "./useStoreState";
 
 // TODO: get this from the .env
 // env is harcoded until we have two environments
@@ -13,16 +13,16 @@ const FETCH_HEADERS = {
 };
 
 export const useDataFromUserOrg = (endpoint, passedOpts) => {
-  const { user } = useContext(UserContext);
+  const { auth, user } = useStoreState();
   const [data, setData] = useState();
   const [error, setError] = useState();
 
   useEffect(() => {
-    if (user) {
+    if (auth) {
       const opts = {
         headers: {
           ...FETCH_HEADERS,
-          Authorization: user.authToken
+          Authorization: auth
         },
         ...passedOpts
       };

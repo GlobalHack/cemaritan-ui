@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { withRouter } from "react-router-dom";
 import logo from "../../assets/cem.png";
 import {
@@ -11,10 +11,10 @@ import {
   LogoImg,
   LogoTxt
 } from "./styled";
-import { UserContext } from '../../context/UserContext'
+import useStoreState from "../../hooks/useStoreState";
 
-const NavLinks = (props) => {
-  const { user } = useContext(UserContext);
+const NavLinks = props => {
+  const { user } = useStoreState();
 
   if (user) {
     return (
@@ -23,17 +23,13 @@ const NavLinks = (props) => {
         <NavItem>
           Transfers
           <DropDown>
-            <DropDownItem
-              onClick={props.redirect("/transfers/create")}
-            >
+            <DropDownItem onClick={props.redirect("/transfers/create")}>
               Create
             </DropDownItem>
             <DropDownItem onClick={props.redirect("/transfers/view")}>
               View
             </DropDownItem>
-            <DropDownItem
-              onClick={props.redirect("/transfers/upload")}
-            >
+            <DropDownItem onClick={props.redirect("/transfers/upload")}>
               Upload
             </DropDownItem>
           </DropDown>
@@ -42,9 +38,7 @@ const NavLinks = (props) => {
           Connections
           <DropDown>
             <DropDownItemDisabled>Create</DropDownItemDisabled>
-            <DropDownItem
-              onClick={props.redirect("/connections/view")}
-            >
+            <DropDownItem onClick={props.redirect("/connections/view")}>
               View
             </DropDownItem>
             <DropDownItem
@@ -54,21 +48,17 @@ const NavLinks = (props) => {
             </DropDownItem>
           </DropDown>
         </NavItem>
-        <NavItem onClick={props.redirect("/history")}>
-          History
-        </NavItem>
-        <NavItem onClick={props.redirect("/downloads")}>
-          Downloads
-        </NavItem>
+        <NavItem onClick={props.redirect("/history")}>History</NavItem>
+        <NavItem onClick={props.redirect("/downloads")}>Downloads</NavItem>
       </div>
-    )
+    );
   }
-  return (<div></div>)
-}
+  return <div></div>;
+};
 
 class NavBar extends React.Component {
   constructor() {
-    super()
+    super();
 
     this.redirect = this.redirect.bind(this);
   }
@@ -77,7 +67,7 @@ class NavBar extends React.Component {
     this.props.history.push(route);
   };
 
-  render () {
+  render() {
     return (
       <NavContainer>
         <NavLogo onClick={this.redirect("/")}>

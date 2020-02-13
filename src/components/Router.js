@@ -1,15 +1,16 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
-import { UserContext } from "../context/UserContext";
 import Connections from "../pages/connections";
 import Downloads from "../pages/Downloads";
 import History from "../pages/History";
 import Login from "../pages/Login";
 import Transfers from "../pages/transfers";
 
+import useStoreState from "../hooks/useStoreState";
+
 function Router() {
-  const { user } = useContext(UserContext);
+  const { user } = useStoreState();
 
   return !user ? (
     // non authenticated requests can only get to login page

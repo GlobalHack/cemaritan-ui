@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 
 // Firebase App (the core Firebase SDK) is always required and must be listed first
@@ -9,9 +9,9 @@ import "firebase/auth";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 
-import { AuthContext } from "../context/AuthContext";
-import { UserContext } from "../context/UserContext";
-import fetch from "../utils/fetcher";
+import fetcher from "../utils/fetcher";
+import useStoreState from "../hooks/useStoreState";
+import useStoreDispatch from "../hooks/useStoreDispatch";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -26,28 +26,27 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const Login = props => {
-  const { auth, setAuth } = useContext(AuthContext);
-  const { setUser } = useContext(UserContext);
+  const state = useStoreState();
+  const dispatch = useStoreDispatch();
+
   const [logInStatus, setLogInStatus] = useState();
   const [error, setError] = useState(null);
 
-  // only call useEffect if auth changes...
+  // first need auth to fetch user
   useEffect(() => {
-    if (auth) {
-      fetch("user", auth)
-        .then(res => {
-          if (res && res.ok) {
-            // set user in global context
-            console.log("--- RECEIVED USER:");
-            console.log(res);
-            setLogInStatus("success");
-            res.authToken = auth;
-            setUser(res);
-            return;
-          }
-          console.error(res);
-          throw Error("API ERROR: failed to fetch user");
+    if (state.auth) {
+      fetcher("/user", state.auth)
+        .then(user => {
+          setLogInStatus("success");
+
+          // set user in global context
+          dispatch({
+            type: "SET_USER",
+            user
+          });
+          return;
         })
+        // do I need this?
         .then(() => {
           props.history.push("/");
         })
@@ -58,7 +57,7 @@ const Login = props => {
           setLogInStatus("error");
         });
     }
-  }, [auth]);
+  }, [state.auth]);
 
   const launchAuthentication = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -80,7 +79,10 @@ const Login = props => {
             if (!userToken) {
               throw Error("failed to get user token");
             }
-            setAuth(userToken);
+            dispatch({
+              type: "SET_AUTH",
+              authToken: userToken
+            });
           })
           .catch(err => console.log(err));
       })
@@ -94,7 +96,9 @@ const Login = props => {
       });
   };
 
-  const stillLoading = Boolean(logInStatus === "pending" || (auth && !error));
+  const stillLoading = Boolean(
+    logInStatus === "pending" || (state.auth && !error)
+  );
 
   return (
     <div className="text-center">
