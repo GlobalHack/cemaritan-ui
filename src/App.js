@@ -1,42 +1,24 @@
-import React, { Component } from 'react'
-import { BrowserRouter } from 'react-router-dom'
-import './App.css'
-import NavBar from './components/NavBar'
-import Router from './components/Router'
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import "./App.css";
 
-class App extends Component {
-  constructor () {
-    super()
+import NavBar from "./components/NavBar";
+import Router from "./components/Router";
+import StoreProvider from "./context/StoreProvider";
 
-    this.state = {
-      isAuthenticated: true, // TODO default this to false
-      user: null
-    }
-  }
-
-  handleAuthentication = user => {
-    console.log('handleAuthentication')
-    return new Promise((resolve, reject) => {
-      this.setState({ isAuthenticated: true, user }, () => resolve())
-    })
-  }
-
-  render () {
-    const { isAuthenticated } = this.state
-
-    return (
+const App = () => {
+  return (
+    <StoreProvider>
       <BrowserRouter>
         <div>
-          {isAuthenticated ? <NavBar /> : null}
+          <NavBar />
           <div className="page-wrapper">
-            <Router
-              isAuthenticated={isAuthenticated}
-              handleAuthentication={this.handleAuthentication} />
+            <Router />
           </div>
         </div>
       </BrowserRouter>
-    )
-  }
-}
+    </StoreProvider>
+  );
+};
 
-export default App
+export default App;

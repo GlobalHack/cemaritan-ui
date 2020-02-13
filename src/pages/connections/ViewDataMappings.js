@@ -1,58 +1,53 @@
-import React from 'react';
-import BootstrapTable from 'react-bootstrap-table-next';
-import fetcher from '../../utils/fetcher';
+import React from "react";
+import BootstrapTable from "react-bootstrap-table-next";
+import { useDataFromUserOrg } from "../../hooks/useDataFromUserOrg";
 
-
-const columns = [{
-  dataField: 'uid',
-  text: 'UID',
-  hidden: true
-}, {
-  dataField: 'name',
-  text: 'Name',
-  sort: true
-}, {
-  dataField: 'start_format',
-  text: 'Start Format',
-  sort: false
-}, {
- dataField: 'end_format',
- text: 'End Format',
- sort: false
-}, {
- dataField: 'num_of_transfers',
- text: '# of Transfers',
- sort: false
-}];
-
-class ViewConnections extends React.Component {
-  constructor () {
-    super();
-
-    this.state = {
-      data: []
-    }
+const columns = [
+  {
+    dataField: "uid",
+    text: "UID",
+    hidden: true
+  },
+  {
+    dataField: "name",
+    text: "Name",
+    sort: true
+  },
+  {
+    dataField: "start_format",
+    text: "Start Format",
+    sort: false
+  },
+  {
+    dataField: "end_format",
+    text: "End Format",
+    sort: false
+  },
+  {
+    dataField: "num_of_transfers",
+    text: "# of Transfers",
+    sort: false
   }
+];
 
-  componentDidMount () {
-    fetcher('mappings').then(data => {
-;      this.setState({ data })
-    })
-  }
+const DataMappings = () => {
+  const { data: mappings, error } = useDataFromUserOrg("/mappings");
 
-  render () {
-    return (
-      <div>
-        <h1>View Data Mappings</h1>
+  return (
+    <div>
+      <h1>View Data Mappings</h1>
+      {error && <p>{error}</p>}
+      {!mappings && <p>loading...</p>}
+      {mappings && (
         <BootstrapTable
           bootstrap4
-          keyField='uid'
-          data={ this.state.data }
-          columns={ columns }
+          keyField="uid"
+          data={mappings}
+          columns={columns}
         />
-      </div>
-    )
-  }
-}
+      )}
+    </div>
+  );
+};
 
-export default ViewConnections
+export default DataMappings;

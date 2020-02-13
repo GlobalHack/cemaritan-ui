@@ -7,25 +7,27 @@ import History from "../pages/History";
 import Login from "../pages/Login";
 import Transfers from "../pages/transfers";
 
-function Router({ isAuthenticated, handleAuthentication }) {
-  return !isAuthenticated
-    ? ( // non authenticated requests can only get to login page
-      <Switch>
-        <Route path="/login" render={() => <Login isAuthenticated={isAuthenticated} handleAuthentication={handleAuthentication} />} />
-        <Route path="*" render={() => <Redirect to="/login" />} />
-      </Switch>
-    ) : (
-      <Switch>
-        {/*TODO remove this login path*/}
-        <Route path="/login" render={() => <Login isAuthenticated={isAuthenticated} handleAuthentication={handleAuthentication} />} />
-        <Route path="/connections" component={Connections} />
-        <Route path="/history" component={History} />
-        <Route path="/transfers" component={Transfers} />
-        <Route path="/downloads" component={Downloads} />
-        <Route path="/" render={() => <Redirect to="/history" />} />
-        <Route path="*" render={() => <Redirect to="/history" />} />
-      </Switch>
-    )
+import useStoreState from "../hooks/useStoreState";
+
+function Router() {
+  const { user } = useStoreState();
+
+  return !user ? (
+    // non authenticated requests can only get to login page
+    <Switch>
+      <Route path="/login" render={() => <Login />} />
+      <Route path="*" render={() => <Redirect to="/login" />} />
+    </Switch>
+  ) : (
+    <Switch>
+      <Route path="/connections" component={Connections} />
+      <Route path="/history" component={History} />
+      <Route path="/transfers" component={Transfers} />
+      <Route path="/downloads" component={Downloads} />
+      <Route path="/" render={() => <Redirect to="/history" />} />
+      <Route path="*" render={() => <Redirect to="/history" />} />
+    </Switch>
+  );
 }
 
 export default Router;

@@ -1,96 +1,102 @@
-import React from 'react';
-import BootstrapTable from 'react-bootstrap-table-next';
-import CModal from '../components/Modal';
+import React, { useState } from "react";
+import BootstrapTable from "react-bootstrap-table-next";
+import CModal from "../components/Modal";
 
-import fetcher from '../utils/fetcher'
+import fetcher from "../utils/fetcher";
+import { useDataFromUserOrg } from "../hooks/useDataFromUserOrg";
 
-const columns = [{
-  dataField: 'uid',
-  text: 'UID',
-  hidden: true
-}, {
-  dataField: 'expiration_datetime',
-  text: 'Expiration Date',
-  sort: true
-}, {
-  dataField: 'name',
-  text: 'Name',
-  sort: true
-},{
-  dataField: 'transfer_name',
-  text: 'Transfer Name',
-  sort: true
-}];
-
-class Downloads extends React.Component {
-  constructor () {
-    super()
-
-    const downloadColumn = {
-      dataField: 'uid',
-      text: 'Download',
-      formatter: (cell) => (
-        <button onClick={this.getDownloadLink} data-download-id={cell}>Download</button>
-      )
-    };
-
-    columns.push(downloadColumn);
-
-    this.state = {
-      columns: columns,
-      data: []
-    }
-
-    this.getDownloadLink = this.getDownloadLink.bind(this);
-    this.clearDownload = this.clearDownload.bind(this);
+const columns = [
+  {
+    dataField: "uid",
+    text: "UID",
+    hidden: true
+  },
+  {
+    dataField: "expiration_datetime",
+    text: "Expiration Date",
+    sort: true
+  },
+  {
+    dataField: "name",
+    text: "Name",
+    sort: true
+  },
+  {
+    dataField: "transfer_name",
+    text: "Transfer Name",
+    sort: true
   }
+];
 
-  componentDidMount () {
-    fetcher('downloads').then(data => {
-      this.setState({ data })
-    })
-  }
+const Downloads = () => {
+  const { data: downloads, error } = useDataFromUserOrg("/downloads");
+  const [downloadLink, setDownloadLink] = useState();
 
-  getDownloadLink (e) {
+  const getDownloadLink = downloadId => e => {
     e.preventDefault();
-    const downloadId = e.currentTarget.getAttribute('data-download-id');
+    // const downloadId = e.currentTarget.getAttribute("data-download-id");
 
-    fetcher('downloads', `${downloadId}/link`).then((res) => {
+    // TODO: how to do this... hook? need to get user?
+    fetcher(`/downloads/${downloadId}/link`).then(res => {
       if (res.download_link) {
-        this.setState({
-          downloadLink: res.download_link,
-          downloadLinkExpiration: res.expiration
+        setDownloadLink({
+          link: res.download_link,
+          expiration: res.expiration
         });
       }
     });
-  }
+  };
 
-  clearDownload () {
-    this.setState({downloadLink: null, downloadLinkExpiration: null});
-  }
+  const clearDownload = () => {
+    setDownloadLink(null);
+  };
 
-  render () {
-    return (
-      <div>
-        <CModal
-          show={Boolean(this.state.downloadLink)}
-          onHide={this.clearDownload}
-          title="Start Download"
-        >
-            <p>Click <a href={this.state.downloadLink} target="_blank" rel="noopener noreferrer">here</a> to start your file download.</p>
-            <p>{`This link will expire in ${this.state.downloadLinkExpiration} seconds.`}</p>
-        </CModal>
+  const downloadColumn = [
+    {
+      dataField: "uid",
+      text: "Download",
+      formatter: cell => (
+        <button onClick={getDownloadLink(cell)}>Download</button>
+      )
+    }
+  ];
+  const downloadColumns = columns.concat(downloadColumn);
 
-        <h1>Downloads</h1>
+  return (
+    <div>
+      <CModal
+        show={Boolean(downloadLink)}
+        onHide={clearDownload}
+        title="Start Download"
+      >
+        <p>
+          Click{" "}
+          <a
+            href={downloadLink && downloadLink.link}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            here
+          </a>{" "}
+          to start your file download.
+        </p>
+        <p>{`This link will expire in ${downloadLink &&
+          downloadLink.expiration} seconds.`}</p>
+      </CModal>
+
+      <h1>Downloads</h1>
+      {error && <p>{error}</p>}
+      {!downloads && <p>loading...</p>}
+      {downloads && (
         <BootstrapTable
           bootstrap4
-          keyField='uid'
-          data={ this.state.data }
-          columns={ this.state.columns }
+          keyField="uid"
+          data={downloads}
+          columns={downloadColumns}
         />
+      )}
     </div>
-    )
-  }
-}
+  );
+};
 
-export default Downloads
+export default Downloads;

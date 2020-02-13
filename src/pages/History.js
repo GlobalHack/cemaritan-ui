@@ -1,50 +1,44 @@
-import React from 'react';
-import BootstrapTable from 'react-bootstrap-table-next';
-import fetcher from '../utils/fetcher';
+import React from "react";
+import BootstrapTable from "react-bootstrap-table-next";
 
+import { useDataFromUserOrg } from "../hooks/useDataFromUserOrg";
 
-const columns = [{
-  dataField: 'datetime',
-  text: 'Date',
-  sort: true
-}, {
-  dataField: 'type',
-  text: 'Type',
-  sort: true
-}, {
-  dataField: 'action',
-  text: 'Action',
-  sort: true
-}];
-
-class History extends React.Component {
-  constructor () {
-    super()
-
-    this.state = {
-      data: []
-    }
+const columns = [
+  {
+    dataField: "datetime",
+    text: "Date",
+    sort: true
+  },
+  {
+    dataField: "type",
+    text: "Type",
+    sort: true
+  },
+  {
+    dataField: "action",
+    text: "Action",
+    sort: true
   }
+];
 
-  componentDidMount () {
-    fetcher('histories').then(data => {
-      this.setState({ data })
-    })
-  }
+const History = () => {
+  const { data: histories, error } = useDataFromUserOrg("/histories");
 
-  render () {
-    return (
-      <div>
-        <h1>History</h1>
+  return (
+    <div>
+      <h1>History</h1>
+      {error && <p>{error}</p>}
+      {!histories && <p>loading...</p>}
+      {histories && (
         <BootstrapTable
           bootstrap4
-          keyField='uid'
-          data={ this.state.data }
-          columns={ columns }
+          keyField="uid"
+          data={histories}
+          columns={columns}
         />
-      </div>
-    )
-  }
-}
+      )}
+    </div>
+  );
+};
 
-export default History
+export default History;

@@ -1,44 +1,75 @@
-import config from '../config'
+import config from "../config";
 
-// env is harcoded until we have two environments
-const ENV = 'nonprod'
-// this api base url is pulled from the config file imported above
-const api = config[ENV].api
+// const endpoints = {
+//   connections: `/organizations/${organization_id}/connections`,
+//   downloads: `/organizations/${organization_id}/downloads`,
+//   histories: `/organizations/${organization_id}/histories`,
+//   mappings: `/organizations/${organization_id}/mappings`,
+//   organizations: `/organizations`,
+//   transfers: `/organizations/${organization_id}/transfers`,
+//   uploads: `/organizations/${organization_id}/uploads`,
+//   users: `/organizations/${organization_id}/users`,
+// }
 
-// organizations (options: 1, 2, 3)
-const organization_id = 1;
+/* env is harcoded until we have two environments */
+const ENV = "nonprod";
 
-// strings used as fetcher arg to map to each endpoint ex: fetcher('connections')
-const endpoints = {
-  connections: `/organizations/${organization_id}/connections`,
-  downloads: `/organizations/${organization_id}/downloads`,
-  histories: `/organizations/${organization_id}/histories`,
-  mappings: `/organizations/${organization_id}/mappings`,
-  organizations: `/organizations`,
-  transfers: `/organizations/${organization_id}/transfers`,
-  uploads: `/organizations/${organization_id}/uploads`,
-  users: `/organizations/${organization_id}/users`
+/* this api base url is pulled from the config file imported above */
+const base_url = config[ENV].api;
+
+/* check for a successful response */
+export function checkStatus(response) {
+  if (response.status >= 200 && response.status < 300 && response.ok) {
+    return Promise.resolve(response);
+  } else {
+    return Promise.reject(new Error(response.statusText));
+  }
 }
 
-const fetcher = (endpoint, objectId, passedOpts) => {
-  // check to make sure passed endpoint is valid in endpoints object above
-  if (!endpoints[endpoint]) return console.error(`'${endpoint}' is not a valid endpoint!`)
+/* all fetch responses need to be unpacked to read */
+function unpackJson(response) {
+  return response.json();
+}
 
+/*
+// errors will probably be displayed in the component that is
+// calling the fetch function... so print error here to console
+// and pass the error back to caller
+*/
+function printAndThrowError(error) {
+  console.error(error);
+  throw error;
+}
+
+const getHeaders = (auth, passedHeaders) => {
+  const headers = new Headers({
+    "Content-Type": "application/json",
+    ...passedHeaders
+  });
+
+  if (auth) {
+    headers.append("Authorization", auth);
+  }
+  return headers;
+};
+
+/*
+ * @param endpoint string (required)
+ * @param passedOpts json
+ * @param passedHeaders json
+ */
+const fetcher = (endpoint, auth, passedOpts, passedHeaders) => {
   const opts = {
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: getHeaders(auth, passedHeaders),
     ...passedOpts
-  }
-  let url = `${api}${endpoints[endpoint]}`
+  };
 
-  if (objectId){
-    url = url + `/${objectId}`;
-  }
+  const get_url = base_url + endpoint;
 
-  return fetch(url, opts)
-    .then(res => res.json())
-    .catch(console.error)
-}
+  return fetch(get_url, opts)
+    .then(checkStatus)
+    .then(unpackJson)
+    .catch(printAndThrowError);
+};
 
-export default fetcher
+export default fetcher;
