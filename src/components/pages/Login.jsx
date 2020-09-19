@@ -8,10 +8,9 @@ import "firebase/auth";
 
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
-
-import fetcher from "../utils/fetcher";
-import useStoreState from "../hooks/useStoreState";
-import useStoreDispatch from "../hooks/useStoreDispatch";
+import fetcher from "../../utils/fetcher";
+import useStoreState from "../../hooks/useStoreState";
+import useStoreDispatch from "../../hooks/useStoreDispatch";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -19,13 +18,13 @@ const firebaseConfig = {
   databaseURL: process.env.REACT_APP_FIREBASE_DB_URL,
   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
   storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
 };
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-const Login = props => {
+const Login = (props) => {
   const state = useStoreState();
   const dispatch = useStoreDispatch();
 
@@ -36,13 +35,13 @@ const Login = props => {
   useEffect(() => {
     if (state.auth) {
       fetcher("/user", state.auth)
-        .then(user => {
+        .then((user) => {
           setLogInStatus("success");
 
           // set user in global context
           dispatch({
             type: "SET_USER",
-            user
+            user,
           });
           return;
         })
@@ -50,7 +49,7 @@ const Login = props => {
         .then(() => {
           props.history.push("/");
         })
-        .catch(err => {
+        .catch((err) => {
           setError(
             "We could not find your user information. Please try again or notify your admin."
           );
@@ -67,26 +66,26 @@ const Login = props => {
     firebase
       .auth()
       .signInWithPopup(provider)
-      .then(result => {
+      .then((result) => {
         // The signed-in user info.
         const user = result.user;
 
         // The value to send with all api requests
         user
           .getIdToken()
-          .then(userToken => {
+          .then((userToken) => {
             // set global auth context
             if (!userToken) {
               throw Error("failed to get user token");
             }
             dispatch({
               type: "SET_AUTH",
-              authToken: userToken
+              authToken: userToken,
             });
           })
-          .catch(err => console.log(err));
+          .catch((err) => console.log(err));
       })
-      .catch(error => {
+      .catch((error) => {
         const errorMessage = error.message;
         // const errorCode = error.code;
         // const email = error.email; // The email of the user's account used.

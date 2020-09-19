@@ -1,24 +1,24 @@
 import React from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 
-import { useDataFromUserOrg } from "../hooks/useDataFromUserOrg";
+import { useDataFromUserOrg } from "../../hooks/useDataFromUserOrg";
 
 const columns = [
   {
     dataField: "datetime",
     text: "Date",
-    sort: true
+    sort: true,
   },
   {
     dataField: "type",
     text: "Type",
-    sort: true
+    sort: true,
   },
   {
     dataField: "action",
     text: "Action",
-    sort: true
-  }
+    sort: true,
+  },
 ];
 
 const History = () => {

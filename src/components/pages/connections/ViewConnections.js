@@ -1,29 +1,29 @@
 import React from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 
-import { useDataFromUserOrg } from "../../hooks/useDataFromUserOrg";
+import { useDataFromUserOrg } from "../../../hooks/useDataFromUserOrg";
 
 const columns = [
   {
     dataField: "uid",
     text: "UID",
-    hidden: true
+    hidden: true,
   },
   {
     dataField: "name",
     text: "Name",
-    sort: true
+    sort: true,
   },
   {
     dataField: "type",
     text: "Type",
-    sort: true
+    sort: true,
   },
   {
     dataField: "created_datetime",
     text: "Created",
-    sort: true
-  }
+    sort: true,
+  },
 ];
 
 const ViewConnections = () => {

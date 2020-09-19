@@ -1,58 +1,58 @@
 import React from "react";
 import BootstrapTable from "react-bootstrap-table-next";
-import { useDataFromUserOrg } from "../../hooks/useDataFromUserOrg";
+import { useDataFromUserOrg } from "../../../hooks/useDataFromUserOrg";
 
 const columns = [
   {
     dataField: "uid",
     text: "UID",
-    hidden: true
+    hidden: true,
   },
   {
     dataField: "name",
     text: "Name",
-    sort: true
+    sort: true,
   },
   {
     dataField: "active",
     text: "Active",
     sort: true,
-    formatter: cell => (cell ? "Active" : "Inactive")
+    formatter: (cell) => (cell ? "Active" : "Inactive"),
   },
   {
     dataField: "source",
     text: "Source",
-    sort: true
+    sort: true,
   },
   {
     dataField: "source_mapping",
     text: "Source Mapping",
-    sort: false
+    sort: false,
   },
   {
     dataField: "destination",
     text: "Destination",
-    sort: true
+    sort: true,
   },
   {
     dataField: "destination_mapping",
     text: "Destination Mapping",
-    sort: false
+    sort: false,
   },
   {
     dataField: "frequency",
-    text: "Frequency"
+    text: "Frequency",
   },
   {
     dataField: "start_datetime",
     text: "Start Date",
-    sort: true
+    sort: true,
   },
   {
     dataField: "uid",
     text: "Edit",
-    formatter: cell => <a href={`edit/${cell}`}>Edit</a>
-  }
+    formatter: (cell) => <a href={`edit/${cell}`}>Edit</a>,
+  },
 ];
 
 const ViewTransfers = () => {

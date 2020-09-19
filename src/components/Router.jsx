@@ -1,11 +1,11 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
-import Connections from "../pages/connections";
-import Downloads from "../pages/Downloads";
-import History from "../pages/History";
-import Login from "../pages/Login";
-import Transfers from "../pages/transfers";
+import Connections from "./pages/connections";
+import Downloads from "./pages/Downloads";
+import History from "./pages/History";
+import Login from "./pages/Login";
+import Transfers from "./pages/transfers";
 
 import useStoreState from "../hooks/useStoreState";
 

@@ -1,33 +1,33 @@
 import React from "react";
 import BootstrapTable from "react-bootstrap-table-next";
-import { useDataFromUserOrg } from "../../hooks/useDataFromUserOrg";
+import { useDataFromUserOrg } from "../../../hooks/useDataFromUserOrg";
 
 const columns = [
   {
     dataField: "uid",
     text: "UID",
-    hidden: true
+    hidden: true,
   },
   {
     dataField: "name",
     text: "Name",
-    sort: true
+    sort: true,
   },
   {
     dataField: "start_format",
     text: "Start Format",
-    sort: false
+    sort: false,
   },
   {
     dataField: "end_format",
     text: "End Format",
-    sort: false
+    sort: false,
   },
   {
     dataField: "num_of_transfers",
     text: "# of Transfers",
-    sort: false
-  }
+    sort: false,
+  },
 ];
 
 const DataMappings = () => {
