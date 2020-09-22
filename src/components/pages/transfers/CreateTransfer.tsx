@@ -1,51 +1,55 @@
 import React, { useState } from "react";
 
-import TransferForm from "./TransferForm";
+import useStoreState from "../../../hooks/useStoreState";
+import TransferForm, { TransferFormData } from "../../forms/TransferForm";
 import ValidationModal from "../../ValidationModal";
-import poster from "../../../utils/poster";
+import { postTransfer } from "../../../utils/postTransfer";
 
-const initValues = {
+const initValues: TransferFormData = {
   name: "",
-  source_uid: "",
-  source_mapping_uid: "",
-  destination_uid: "",
-  destination_mapping_uid: "",
+  source_uid: 0,
+  source_mapping_uid: 0,
+  destination_uid: 0,
+  destination_mapping_uid: 0,
   frequency: "",
-  start_datetime: undefined,
+  start_datetime: new Date(),
   active: false,
 };
+
+type POST_STATUS = "pending" | "success" | "error";
 
 const SUCCESS_MESSAGE =
   "You have successfully created a new transfer. Please continue with an option below.";
 const FAIL_MESSAGE =
   "Something went wrong when attempting to create your transfer. Please close this dialog and try again.";
 
-function CreateTransfer() {
-  const [postStatus, setPostStatus] = useState();
+export const CreateTransfer = () => {
+  const { user } = useStoreState();
+  const [postStatus, setPostStatus] = useState<POST_STATUS | undefined>();
+  const showModalPostStatus = ["success", "error"];
+  const showModal = postStatus && showModalPostStatus.includes(postStatus);
 
-  const postTransfer = (data) => {
-    // TODO: organization, we won't need... will be handled by the backend ...
-    // TODO: need to attach created_by from global context?...
-    data.organization = "OLI";
-    data.created_by = 1;
+  const submitTransfer = (formData: TransferFormData) => {
+    const postData = {
+      ...formData,
+      organization: user.organization,
+      created_by: user.uid,
+    };
 
     setPostStatus("pending");
 
-    poster("transfers", data)
+    console.log("posting data", postData);
+
+    postTransfer(postData)
       .then((res) => {
         if (res) {
           setPostStatus("success");
-        } else {
-          setPostStatus("error");
         }
       })
-      .catch(() => setPostStatus("error"));
-  };
-
-  const showModal = () => {
-    const showModalPostStatus = ["success", "error"];
-
-    return showModalPostStatus.includes(postStatus);
+      .catch((err) => {
+        console.error(err);
+        setPostStatus("error");
+      });
   };
 
   const onHideModal = () => {
@@ -56,10 +60,10 @@ function CreateTransfer() {
     <section>
       <h1>Create Transfers</h1>
       <div>
-        <TransferForm initialValues={initValues} onSubmit={postTransfer} />
+        <TransferForm initialValues={initValues} onSubmit={submitTransfer} />
       </div>
       <ValidationModal
-        show={showModal()}
+        show={showModal}
         onHide={onHideModal}
         title={
           postStatus === "success"
@@ -75,6 +79,4 @@ function CreateTransfer() {
       />
     </section>
   );
-}
-
-export default CreateTransfer;
+};

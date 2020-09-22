@@ -28,7 +28,7 @@ const columns = [
   },
 ];
 
-const Downloads = () => {
+export const Downloads = () => {
   const { data: downloads, error } = useDataFromUserOrg("/downloads");
   const [downloadLink, setDownloadLink] = useState();
 
@@ -99,5 +99,3 @@ const Downloads = () => {
     </div>
   );
 };
-
-export default Downloads;

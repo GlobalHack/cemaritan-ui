@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import { Formik, Field } from "formik";
 
-import FormikDatetimePicker from "../../FormikDatetimePicker";
+import FormikDatetimePicker from "../FormikDatetimePicker";
 import {
   Form,
   Label,
@@ -10,27 +10,39 @@ import {
   Select,
   SubmitButton,
   Text,
-} from "../../../styled-variables";
-import fetcher from "../../../utils/fetcher";
+} from "../../styled-variables";
+import { useConnectionOptions, useMappingOptions } from "../../hooks";
+import { Connection, Mapping } from "../../types";
 
-function TransferForm(props) {
-  const [connectionOptions, setConnectionOptions] = useState([]);
-  const [mappingOptions, setMappingOptions] = useState([]);
+export interface TransferFormData {
+  active: boolean;
+  destination_mapping_uid: number;
+  destination_uid: number;
+  frequency: string;
+  name: string;
+  source_mapping_uid: number;
+  source_uid: number;
+  start_datetime: Date;
+}
 
-  useEffect(() => {
-    /* fetch connections for source & destination options */
-    fetcher("connections").then((data) => {
-      setConnectionOptions(data);
-    });
+interface TransferFormProps {
+  initialValues: TransferFormData;
+  onSubmit: (data: TransferFormData) => any;
+}
 
-    /* fetch data mappings for mapping options */
-    fetcher("mappings").then((data) => {
-      setMappingOptions(data);
-    });
-  }, []);
+const TransferForm = ({ initialValues, onSubmit }: TransferFormProps) => {
+  const connectionOptions: Connection[] = useConnectionOptions();
+  const mappingOptions: Mapping[] = useMappingOptions();
+
+  console.log("connection options", connectionOptions);
+  console.log("mapping options", mappingOptions);
+
+  console.log("initialValues", initialValues);
+
+  // TODO: add validation
 
   return (
-    <Formik initialValues={props.initialValues} onSubmit={props.onSubmit}>
+    <Formik initialValues={initialValues} onSubmit={onSubmit}>
       {({
         values,
         errors,
@@ -162,7 +174,7 @@ function TransferForm(props) {
               type="checkbox"
               name="active"
               onChange={handleChange}
-              value={values.active}
+              value={values.active.toString()}
             />
             <CheckboxLabel htmlFor="active">Active</CheckboxLabel>
           </div>
@@ -174,6 +186,6 @@ function TransferForm(props) {
       )}
     </Formik>
   );
-}
+};
 
 export default TransferForm;

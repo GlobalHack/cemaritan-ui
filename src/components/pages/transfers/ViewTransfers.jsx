@@ -55,7 +55,7 @@ const columns = [
   },
 ];
 
-const ViewTransfers = () => {
+export const ViewTransfers = () => {
   const { data: transfers, error } = useDataFromUserOrg("/transfers");
 
   return (
@@ -74,5 +74,3 @@ const ViewTransfers = () => {
     </div>
   );
 };
-
-export default ViewTransfers;

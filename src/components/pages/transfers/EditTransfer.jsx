@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import TransferForm from "./TransferForm";
+import TransferForm from "../../forms/TransferForm";
 import ValidationModal from "../../ValidationModal";
 
 import fetcher from "../../../utils/fetcher";
@@ -11,7 +11,7 @@ const SUCCESS_MESSAGE =
 const FAIL_MESSAGE =
   "Something went wrong when trying to update your transfer. Please close this dialog and try again.";
 
-const EditTransfer = (props) => {
+export const EditTransfer = (props) => {
   const [initValues, setInitValues] = useState(null);
   const [transferId] = useState(props.match.params.transferId);
   const [updateStatus, setUpdateStatus] = useState();
@@ -70,5 +70,3 @@ const EditTransfer = (props) => {
     </section>
   );
 };
-
-export default EditTransfer;

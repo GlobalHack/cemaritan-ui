@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { withRouter } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 // Firebase App (the core Firebase SDK) is always required and must be listed first
 import * as firebase from "firebase/app";
@@ -24,9 +24,10 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-const Login = (props) => {
+export const Login = () => {
   const state = useStoreState();
   const dispatch = useStoreDispatch();
+  const history = useHistory();
 
   const [logInStatus, setLogInStatus] = useState();
   const [error, setError] = useState(null);
@@ -47,7 +48,7 @@ const Login = (props) => {
         })
         // do I need this?
         .then(() => {
-          props.history.push("/");
+          history.push("/");
         })
         .catch((err) => {
           setError(
@@ -127,5 +128,3 @@ const Login = (props) => {
     </div>
   );
 };
-
-export default withRouter(Login);

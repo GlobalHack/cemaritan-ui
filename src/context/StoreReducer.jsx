@@ -3,13 +3,14 @@ const StoreReducer = (state, action) => {
     case "SET_AUTH": {
       return {
         ...state,
-        auth: action.authToken
+        auth: action.authToken,
       };
     }
     case "SET_USER": {
+      console.log("user", action.user);
       return {
         ...state,
-        user: action.user
+        user: action.user,
       };
     }
     default: {

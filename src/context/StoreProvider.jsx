@@ -5,9 +5,18 @@ import StoreReducer from "./StoreReducer";
 export const StoreStateContext = createContext();
 export const StoreDispatchContext = createContext();
 
+// TODO: types these
+/*
+user: {
+  uid: number;
+  name: string;
+  organization: 2
+}
+*/
+
 const initialState = {
   auth: null,
-  user: null
+  user: null,
 };
 
 const StoreProvider = ({ children }) => {

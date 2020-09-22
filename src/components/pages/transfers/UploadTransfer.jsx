@@ -14,7 +14,7 @@ const SUCCESS_MESSAGE =
 const FAIL_MESSAGE =
   "Something went wrong when attempting to upload your transfer. Please close this dialog and try again.";
 
-function UploadTransfer() {
+export const UploadTransfer = () => {
   const [postStatus, setPostStatus] = useState([]);
   const [connectionOptions, setConnectionOptions] = useState([]);
   const [mappingOptions, setMappingOptions] = useState([]);
@@ -180,6 +180,4 @@ function UploadTransfer() {
       />
     </section>
   );
-}
-
-export default UploadTransfer;
+};

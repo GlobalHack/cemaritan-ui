@@ -21,7 +21,7 @@ const columns = [
   },
 ];
 
-const History = () => {
+export const History = () => {
   const { data: histories, error } = useDataFromUserOrg("/histories");
 
   return (
@@ -40,5 +40,3 @@ const History = () => {
     </div>
   );
 };
-
-export default History;

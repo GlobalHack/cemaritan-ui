@@ -9,11 +9,11 @@ import {
   NavItem,
   NavLogo,
   LogoImg,
-  LogoTxt
+  LogoTxt,
 } from "./styled";
 import useStoreState from "../../hooks/useStoreState";
 
-const NavLinks = props => {
+const NavLinks = (props) => {
   const { user } = useStoreState();
 
   if (user) {
@@ -26,7 +26,7 @@ const NavLinks = props => {
             <DropDownItem onClick={props.redirect("/transfers/create")}>
               Create
             </DropDownItem>
-            <DropDownItem onClick={props.redirect("/transfers/view")}>
+            <DropDownItem onClick={props.redirect("/transfers")}>
               View
             </DropDownItem>
             <DropDownItem onClick={props.redirect("/transfers/upload")}>
@@ -38,7 +38,7 @@ const NavLinks = props => {
           Connections
           <DropDown>
             <DropDownItemDisabled>Create</DropDownItemDisabled>
-            <DropDownItem onClick={props.redirect("/connections/view")}>
+            <DropDownItem onClick={props.redirect("/connections")}>
               View
             </DropDownItem>
             <DropDownItem
@@ -63,7 +63,7 @@ class NavBar extends React.Component {
     this.redirect = this.redirect.bind(this);
   }
 
-  redirect = route => () => {
+  redirect = (route) => () => {
     this.props.history.push(route);
   };
 

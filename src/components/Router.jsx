@@ -1,11 +1,18 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
-import Connections from "./pages/connections";
-import Downloads from "./pages/Downloads";
-import History from "./pages/History";
-import Login from "./pages/Login";
-import Transfers from "./pages/transfers";
+import {
+  CreateConnection,
+  ViewDataMappings,
+  ViewConnections,
+  CreateTransfer,
+  EditTransfer,
+  ViewTransfers,
+  UploadTransfer,
+  History,
+  Downloads,
+  Login,
+} from "./pages";
 
 import useStoreState from "../hooks/useStoreState";
 
@@ -20,10 +27,24 @@ function Router() {
     </Switch>
   ) : (
     <Switch>
-      <Route path="/connections" component={Connections} />
-      <Route path="/history" component={History} />
-      <Route path="/transfers" component={Transfers} />
+      <Route path="/connections/create" exact component={CreateConnection} />
+      <Route
+        path="/connections/data-mappings"
+        exact
+        component={ViewDataMappings}
+      />
+      <Route path="/connections" exact component={ViewConnections} />
+
+      <Route path="/transfers/create" exact component={CreateTransfer} />
+      <Route
+        path="/transfers/edit/:transferId"
+        exact
+        component={EditTransfer}
+      />
+      <Route path="/transfers/upload" exact component={UploadTransfer} />
+      <Route path="/transfers" exact component={ViewTransfers} />
       <Route path="/downloads" component={Downloads} />
+      <Route path="/history" component={History} />
       <Route path="/" render={() => <Redirect to="/history" />} />
       <Route path="*" render={() => <Redirect to="/history" />} />
     </Switch>

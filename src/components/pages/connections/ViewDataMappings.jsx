@@ -1,6 +1,5 @@
 import React from "react";
 import BootstrapTable from "react-bootstrap-table-next";
-
 import { useDataFromUserOrg } from "../../../hooks/useDataFromUserOrg";
 
 const columns = [
@@ -15,35 +14,38 @@ const columns = [
     sort: true,
   },
   {
-    dataField: "type",
-    text: "Type",
-    sort: true,
+    dataField: "start_format",
+    text: "Start Format",
+    sort: false,
   },
   {
-    dataField: "created_datetime",
-    text: "Created",
-    sort: true,
+    dataField: "end_format",
+    text: "End Format",
+    sort: false,
+  },
+  {
+    dataField: "num_of_transfers",
+    text: "# of Transfers",
+    sort: false,
   },
 ];
 
-const ViewConnections = () => {
-  const { data: connections, error } = useDataFromUserOrg("/connections");
+export const ViewDataMappings = () => {
+  const { data: mappings, error } = useDataFromUserOrg("/mappings");
 
   return (
     <div>
-      <h1>View Connections</h1>
+      <h1>View Data Mappings</h1>
       {error && <p>{error}</p>}
-      {!connections && <p>loading...</p>}
-      {connections && (
+      {!mappings && <p>loading...</p>}
+      {mappings && (
         <BootstrapTable
           bootstrap4
           keyField="uid"
-          data={connections}
+          data={mappings}
           columns={columns}
         />
       )}
     </div>
   );
 };
-
-export default ViewConnections;
