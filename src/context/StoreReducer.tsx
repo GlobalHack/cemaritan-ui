@@ -1,6 +1,9 @@
-const StoreReducer = (state, action) => {
+import { AppState, AppActions } from "../types";
+
+const StoreReducer = (state: AppState, action: AppActions) => {
   switch (action.type) {
     case "SET_AUTH": {
+      console.log(action.authToken);
       return {
         ...state,
         auth: action.authToken,
@@ -14,7 +17,7 @@ const StoreReducer = (state, action) => {
       };
     }
     default: {
-      throw new Error(`Unhandled action type: ${action.type}`);
+      return state;
     }
   }
 };

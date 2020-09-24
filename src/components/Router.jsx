@@ -36,11 +36,7 @@ function Router() {
       <Route path="/connections" exact component={ViewConnections} />
 
       <Route path="/transfers/create" exact component={CreateTransfer} />
-      <Route
-        path="/transfers/edit/:transferId"
-        exact
-        component={EditTransfer}
-      />
+      <Route path="/transfers/edit/:transferId" component={EditTransfer} />
       <Route path="/transfers/upload" exact component={UploadTransfer} />
       <Route path="/transfers" exact component={ViewTransfers} />
       <Route path="/downloads" component={Downloads} />

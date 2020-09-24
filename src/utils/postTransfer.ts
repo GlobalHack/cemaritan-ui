@@ -1,6 +1,6 @@
 import axios from "./axios";
 
-interface TransferData {
+export interface TransferData {
   active: boolean;
   destination_mapping_uid: number;
   destination_uid: number;

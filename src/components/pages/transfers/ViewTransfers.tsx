@@ -1,6 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import BootstrapTable from "react-bootstrap-table-next";
-import { useDataFromUserOrg } from "../../../hooks/useDataFromUserOrg";
+import { useTransfers } from "../../../hooks/useTransfers";
 
 const columns = [
   {
@@ -17,7 +18,7 @@ const columns = [
     dataField: "active",
     text: "Active",
     sort: true,
-    formatter: (cell) => (cell ? "Active" : "Inactive"),
+    formatter: (cell: boolean) => (cell ? "Active" : "Inactive"),
   },
   {
     dataField: "source",
@@ -51,19 +52,21 @@ const columns = [
   {
     dataField: "uid",
     text: "Edit",
-    formatter: (cell) => <a href={`edit/${cell}`}>Edit</a>,
+    formatter: (cell: number) => (
+      <Link to={`/transfers/edit/${cell}`}>Edit</Link>
+    ),
   },
 ];
 
 export const ViewTransfers = () => {
-  const { data: transfers, error } = useDataFromUserOrg("/transfers");
+  const { transfers, fetching, error } = useTransfers();
 
   return (
     <div>
       <h1>Scheduled Transfers</h1>
       {error && <p>{error}</p>}
-      {!transfers && <p>loading...</p>}
-      {transfers && (
+      {transfers.length === 0 && fetching && <p>loading...</p>}
+      {transfers.length > 0 && (
         <BootstrapTable
           bootstrap4
           keyField="uid"
