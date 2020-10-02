@@ -1,190 +1,149 @@
-import React from "react";
+import React, { useState } from "react";
+import { Form, Button } from "react-bootstrap";
+import DatePicker from "react-datepicker";
+import useStoreState from "../../hooks/useStoreState";
 
-import { Formik, Field } from "formik";
-
-import FormikDatetimePicker from "../FormikDatetimePicker";
-import {
-  Form,
-  Label,
-  CheckboxLabel,
-  Select,
-  SubmitButton,
-  Text,
-} from "../../styled-variables";
-import { useConnectionOptions, useMappingOptions } from "../../hooks";
-import { Connection, Mapping } from "../../types";
-
-export interface TransferFormData {
-  active: boolean;
-  destination_mapping_uid: number;
-  destination_uid: number;
-  frequency: string;
-  name: string;
-  source_mapping_uid: number;
-  source_uid: number;
-  start_datetime: Date;
-}
+import ConnectionSelect from "./ConnectionSelect";
+import MappingSelect from "./MappingSelect";
+import { Active, Frequency, TransferData } from "../../types";
 
 interface TransferFormProps {
-  initialValues: TransferFormData;
-  onSubmit: (data: TransferFormData) => any;
+  initialValues?: TransferData;
+  onSubmit: (data: TransferData) => any;
 }
 
 const TransferForm = ({ initialValues, onSubmit }: TransferFormProps) => {
-  const connectionOptions: Connection[] = useConnectionOptions();
-  const mappingOptions: Mapping[] = useMappingOptions();
+  const { user } = useStoreState();
 
-  console.log("connection options", connectionOptions);
-  console.log("mapping options", mappingOptions);
+  const init = {
+    name: initialValues?.name || "",
+    source_uid: initialValues?.source_uid.toString() || "",
+    source_mapping_uid: initialValues?.source_mapping_uid.toString() || "",
+    destination_uid: initialValues?.destination_uid.toString() || "",
+    destination_mapping_uid: initialValues?.source_mapping_uid.toString() || "",
+    start_datetime: initialValues?.start_datetime
+      ? new Date(initialValues.start_datetime)
+      : new Date(),
+    frequency: initialValues?.frequency || "Week",
+    active: initialValues?.active || "FALSE",
+  };
 
-  console.log("initialValues", initialValues);
+  const [name, setName] = useState<string>(init.name);
+  const [sourceUID, setSourceUID] = useState<string>(init.source_uid);
+  const [sourceMappingUID, setSourceMappingUID] = useState<string>(
+    init.source_mapping_uid
+  );
+  const [destinationUID, setDestinationUID] = useState<string>(
+    init.destination_uid
+  );
+  const [destinationMappingUID, setDestinationMappingUID] = useState<string>(
+    init.destination_mapping_uid
+  );
+  const [startDatetime, setStartDatetime] = useState<Date>(init.start_datetime);
+  const [frequency, setFrequency] = useState<Frequency>(init.frequency);
+  const [active, setActive] = useState<Active>(init.active);
 
-  // TODO: add validation
+  const isValid =
+    name &&
+    sourceUID &&
+    sourceMappingUID &&
+    destinationUID &&
+    destinationMappingUID &&
+    startDatetime &&
+    frequency;
+
+  function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+    // convert data types
+    const data: TransferData = {
+      name: name,
+      source_uid: parseInt(sourceUID),
+      source_mapping_uid: parseInt(sourceMappingUID),
+      destination_uid: parseInt(destinationUID),
+      destination_mapping_uid: parseInt(destinationMappingUID),
+      start_datetime: startDatetime.toUTCString(),
+      frequency: frequency,
+      active: active === "TRUE" ? "TRUE" : "FALSE",
+      organization: user.organization,
+      created_by: user.uid,
+    };
+    onSubmit(data);
+  }
 
   return (
-    <Formik initialValues={initialValues} onSubmit={onSubmit}>
-      {({
-        values,
-        errors,
-        touched,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-        isSubmitting,
-        /* and other goodies */
-      }) => (
-        <Form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <Label htmlFor="name">Name</Label>
-            <Field
-              id="name"
-              name="name"
-              component={Text}
-              onChange={handleChange}
-              value={values.name}
-            />
-          </div>
+    <Form onSubmit={handleSubmit}>
+      <Form.Group>
+        <Form.Label>Name</Form.Label>
+        <Form.Control
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </Form.Group>
+      <ConnectionSelect
+        label="Source"
+        value={sourceUID}
+        updateValue={setSourceUID}
+      />
+      <MappingSelect
+        label="Source Mapping"
+        value={sourceMappingUID}
+        updateValue={setSourceMappingUID}
+      />
+      <ConnectionSelect
+        label="Destination"
+        value={destinationUID}
+        updateValue={setDestinationUID}
+      />
+      <MappingSelect
+        label="Destination Mapping"
+        value={destinationMappingUID}
+        updateValue={setDestinationMappingUID}
+      />
 
-          <div className="form-group">
-            <Label htmlFor="source_uid">Source</Label>
-            <Field
-              id="source_uid"
-              name="source_uid"
-              component={Select}
-              onChange={handleChange}
-              value={values.source_uid}
-            >
-              <option value=""></option>
-              {connectionOptions.map((source) => (
-                <option key={`source-option-${source.uid}`} value={source.uid}>
-                  {source.name}
-                </option>
-              ))}
-            </Field>
-          </div>
+      <Form.Group>
+        <Form.Label>Start Date and Time</Form.Label>
+        <div>
+          <DatePicker
+            showTimeSelect
+            selected={startDatetime}
+            dateFormat="MM/dd/yyyy hh:mm a"
+            onChange={(date: Date) => setStartDatetime(date)}
+          />
+        </div>
+      </Form.Group>
 
-          <div className="form-group">
-            <Label htmlFor="source_mapping_uid">Source Mapping</Label>
-            <Field
-              id="source_mapping_uid"
-              name="source_mapping_uid"
-              component={Select}
-              onChange={handleChange}
-              value={values.source_mapping_uid}
-            >
-              <option value=""></option>
-              {mappingOptions.map((mapping) => (
-                <option
-                  key={`source-mapping-option-${mapping.uid}`}
-                  value={mapping.uid}
-                >
-                  {mapping.name}
-                </option>
-              ))}
-            </Field>
-          </div>
+      <Form.Group>
+        <Form.Label>Frequency</Form.Label>
+        <Form.Control
+          as="select"
+          custom
+          value={frequency}
+          onChange={(e) => {
+            const value = e.target.value as Frequency;
+            setFrequency(value);
+          }}
+        >
+          <option value="5 Minute">5 Minute</option>
+          <option value="Hour">Hour</option>
+          <option value="Day">Day</option>
+        </Form.Control>
+      </Form.Group>
 
-          <div className="form-group">
-            <Label htmlFor="destination_uid">Destination</Label>
-            <Field
-              id="destination_uid"
-              name="destination_uid"
-              component={Select}
-              onChange={handleChange}
-              value={values.destination_uid}
-            >
-              <option value=""></option>
-              {connectionOptions.map((dest) => (
-                <option key={`dest-option-${dest.uid}`} value={dest.uid}>
-                  {dest.name}
-                </option>
-              ))}
-            </Field>
-          </div>
+      <Form.Switch
+        id="active"
+        label="Active"
+        checked={active === "TRUE"}
+        onChange={() => {
+          const newValue = active === "TRUE" ? "FALSE" : "TRUE";
+          setActive(newValue);
+        }}
+      />
 
-          <div className="form-group">
-            <Label htmlFor="destination_mapping_uid">Destination Mapping</Label>
-            <Field
-              id="destination_mapping_uid"
-              name="destination_mapping_uid"
-              component={Select}
-              onChange={handleChange}
-              value={values.destination_mapping_uid}
-            >
-              <option value=""></option>
-              {mappingOptions.map((mapping) => (
-                <option
-                  key={`dest-mapping-option-${mapping.uid}`}
-                  value={mapping.uid}
-                >
-                  {mapping.name}
-                </option>
-              ))}
-            </Field>
-          </div>
-
-          <div className="form-group">
-            <Label htmlFor="start_datetime">Start Date &amp; Time</Label>
-            <Field
-              id="start_datetime"
-              name="start_datetime"
-              value={values.start_datetime}
-              component={FormikDatetimePicker}
-            />
-          </div>
-
-          <div className="form-group">
-            <Label htmlFor="frequency">Frequency</Label>
-            <Field
-              id="frequency"
-              name="frequency"
-              component={Select}
-              onChange={handleChange}
-              value={values.frequency}
-            >
-              <option value=""></option>
-              <option value="5 Minute">5 Minute</option>
-              <option value="Hour">Hour</option>
-              <option value="Day">Day</option>
-            </Field>
-          </div>
-
-          <div className="form-group">
-            <input
-              type="checkbox"
-              name="active"
-              onChange={handleChange}
-              value={values.active.toString()}
-            />
-            <CheckboxLabel htmlFor="active">Active</CheckboxLabel>
-          </div>
-
-          <SubmitButton type="submit" disabled={isSubmitting}>
-            Submit
-          </SubmitButton>
-        </Form>
-      )}
-    </Formik>
+      <Button type="submit" disabled={!isValid}>
+        Submit
+      </Button>
+    </Form>
   );
 };
 

@@ -18,7 +18,7 @@ const columns = [
     dataField: "active",
     text: "Active",
     sort: true,
-    formatter: (cell: boolean) => (cell ? "Active" : "Inactive"),
+    formatter: (cell: string) => (cell === "TRUE" ? "Active" : "Inactive"),
   },
   {
     dataField: "source",
@@ -48,6 +48,10 @@ const columns = [
     dataField: "start_datetime",
     text: "Start Date",
     sort: true,
+    formatter: (cell: string) => {
+      const startDate = new Date(cell);
+      return startDate.toLocaleString();
+    },
   },
   {
     dataField: "uid",
