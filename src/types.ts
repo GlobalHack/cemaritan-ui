@@ -21,6 +21,15 @@ export interface Mapping {
 export type Active = "TRUE" | "FALSE";
 export type Frequency = "5 Minute" | "Day" | "Week";
 
+export interface UploadTransferData {
+  location: string;
+  source_mapping_uid: number;
+  destination_uid: number;
+  destination_mapping_uid: number;
+  organization: number;
+  created_by: number;
+}
+
 export interface TransferData {
   name: string;
   active: Active;
