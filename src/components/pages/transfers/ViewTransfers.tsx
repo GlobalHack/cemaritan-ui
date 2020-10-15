@@ -1,6 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import BootstrapTable from "react-bootstrap-table-next";
+
+import Page from "../page/Page";
+import { ActionType, IPageAction } from "../page/types";
 import { useTransfers } from "../../../hooks/useTransfers";
 
 const columns = [
@@ -65,9 +68,33 @@ const columns = [
 export const ViewTransfers = () => {
   const { transfers, fetching, error } = useTransfers();
 
+  // const actions = [
+  //   <Link to="/transfers/create" component={Button}>
+  //     Create Transfer
+  //   </Link>,
+  //   <Link to="/transfers/upload" component={Button}>
+  //     Upload Transfer
+  //   </Link>,
+  // ];
+  const actions: IPageAction[] = [
+    {
+      actionType: ActionType.link,
+      id: "go-to-create-transfer",
+      label: "Create Transfer",
+      variant: "primary",
+      linkTo: "/transfers/create",
+    },
+    {
+      actionType: ActionType.link,
+      id: "go-to-upload-transfer",
+      label: "Upload Transfer",
+      variant: "secondary",
+      linkTo: "/transfers/upload",
+    },
+  ];
+
   return (
-    <div>
-      <h1>Scheduled Transfers</h1>
+    <Page title="Scheduled Transfers" actions={actions}>
       {error && <p>{error}</p>}
       {transfers.length === 0 && fetching && <p>loading...</p>}
       {transfers.length > 0 && (
@@ -78,6 +105,6 @@ export const ViewTransfers = () => {
           columns={columns}
         />
       )}
-    </div>
+    </Page>
   );
 };

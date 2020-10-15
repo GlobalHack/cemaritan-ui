@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 export const NavContainer = styled.div`
@@ -13,7 +14,7 @@ export const NavContainer = styled.div`
   box-shadow: 0 2px 5px -1px rgba(0, 0, 0, 0.25);
 `;
 
-export const NavItem = styled.div`
+export const NavItem = styled(NavLink)`
   display: inline-block;
   position: relative;
   font-size: 20px;

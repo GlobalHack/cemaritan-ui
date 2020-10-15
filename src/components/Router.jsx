@@ -28,12 +28,8 @@ function Router() {
   ) : (
     <Switch>
       <Route path="/connections/create" exact component={CreateConnection} />
-      <Route
-        path="/connections/data-mappings"
-        exact
-        component={ViewDataMappings}
-      />
       <Route path="/connections" exact component={ViewConnections} />
+      <Route path="/data-mappings" exact component={ViewDataMappings} />
 
       <Route path="/transfers/create" exact component={CreateTransfer} />
       <Route path="/transfers/edit/:transferId" component={EditTransfer} />
@@ -41,8 +37,8 @@ function Router() {
       <Route path="/transfers" exact component={ViewTransfers} />
       <Route path="/downloads" component={Downloads} />
       <Route path="/history" component={History} />
-      <Route path="/" render={() => <Redirect to="/history" />} />
-      <Route path="*" render={() => <Redirect to="/history" />} />
+      <Route path="/" render={() => <Redirect to="/transfers" />} />
+      <Route path="*" render={() => <Redirect to="/transfers" />} />
     </Switch>
   );
 }
