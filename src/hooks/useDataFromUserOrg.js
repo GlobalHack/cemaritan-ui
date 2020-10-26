@@ -9,7 +9,7 @@ const ENV = "nonprod";
 const api = config[ENV].api;
 
 const FETCH_HEADERS = {
-  "Content-Type": "application/json"
+  "Content-Type": "application/json",
 };
 
 export const useDataFromUserOrg = (endpoint, passedOpts) => {
@@ -22,15 +22,15 @@ export const useDataFromUserOrg = (endpoint, passedOpts) => {
       const opts = {
         headers: {
           ...FETCH_HEADERS,
-          Authorization: auth
+          Authorization: auth,
         },
-        ...passedOpts
+        ...passedOpts,
       };
 
       fetch(`${api}/organizations/${user.organization}${endpoint}`, opts)
-        .then(res => res.json())
-        .then(data => setData(data))
-        .catch(err => {
+        .then((res) => res.json())
+        .then((data) => setData(data))
+        .catch((err) => {
           console.error(err);
           setError(`Failed to fetch ${endpoint}.`);
         });

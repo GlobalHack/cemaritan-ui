@@ -68,14 +68,6 @@ const columns = [
 export const ViewTransfers = () => {
   const { transfers, fetching, error } = useTransfers();
 
-  // const actions = [
-  //   <Link to="/transfers/create" component={Button}>
-  //     Create Transfer
-  //   </Link>,
-  //   <Link to="/transfers/upload" component={Button}>
-  //     Upload Transfer
-  //   </Link>,
-  // ];
   const actions: IPageAction[] = [
     {
       actionType: ActionType.link,
@@ -88,7 +80,7 @@ export const ViewTransfers = () => {
       actionType: ActionType.link,
       id: "go-to-upload-transfer",
       label: "Upload Transfer",
-      variant: "secondary",
+      variant: "outline-primary",
       linkTo: "/transfers/upload",
     },
   ];

@@ -3,7 +3,12 @@ import { Button } from "react-bootstrap";
 import { IButtonAction } from "./types";
 
 export const ButtonAction = ({ action }: { action: IButtonAction }) => (
-  <Button id={action.id} variant={action.variant} onClick={action.onClick}>
+  <Button
+    id={action.id}
+    variant={action.variant}
+    onClick={action.onClick}
+    disabled={action.disabled}
+  >
     {action.label}
   </Button>
 );

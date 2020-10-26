@@ -3,19 +3,21 @@ export enum ActionType {
   button,
 }
 
-export type ILinkAction = {
-  actionType: ActionType.link;
+type IAction = {
+  actionType: ActionType;
   id: string;
   label: string;
   variant: string;
+  disabled?: boolean;
+};
+
+export type ILinkAction = IAction & {
+  actionType: ActionType.link;
   linkTo: string;
 };
 
-export type IButtonAction = {
+export type IButtonAction = IAction & {
   actionType: ActionType.button;
-  id: string;
-  label: string;
-  variant: string;
   onClick: () => any;
 };
 

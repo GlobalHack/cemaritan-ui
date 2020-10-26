@@ -10,7 +10,7 @@ interface PageProps {
 
 const Page: React.FC<PageProps> = ({ title, actions, children }) => {
   return (
-    <div>
+    <PageWrapper>
       <TitleBar>
         <h1>{title}</h1>
         {actions && (
@@ -22,7 +22,7 @@ const Page: React.FC<PageProps> = ({ title, actions, children }) => {
         )}
       </TitleBar>
       <div>{children}</div>
-    </div>
+    </PageWrapper>
   );
 };
 
@@ -41,6 +41,10 @@ const PageActions = styled.div`
     & > * + * {
         margin-left: 1rem;
     }
+`;
+
+const PageWrapper = styled.div`
+  margin: 1rem 5%;
 `;
 
 export default Page;

@@ -12,6 +12,7 @@ export const LinkAction = React.forwardRef(
       to={props.action.linkTo}
       id={props.action.id}
       variant={props.action.variant}
+      className={props.action.disabled ? "disabled" : undefined}
       as={Link}
     >
       {props.action.label}

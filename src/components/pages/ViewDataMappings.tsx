@@ -1,6 +1,7 @@
 import React from "react";
 import BootstrapTable from "react-bootstrap-table-next";
-import { useDataFromUserOrg } from "../../../hooks/useDataFromUserOrg";
+import { useMappings } from "../../hooks";
+import Page from "./page/Page";
 
 const columns = [
   {
@@ -31,13 +32,12 @@ const columns = [
 ];
 
 export const ViewDataMappings = () => {
-  const { data: mappings, error } = useDataFromUserOrg("/mappings");
+  const { mappings, fetching, error } = useMappings();
 
   return (
-    <div>
-      <h1>View Data Mappings</h1>
+    <Page title="Data Mappings">
       {error && <p>{error}</p>}
-      {!mappings && <p>loading...</p>}
+      {!mappings && fetching && <p>loading...</p>}
       {mappings && (
         <BootstrapTable
           bootstrap4
@@ -46,6 +46,6 @@ export const ViewDataMappings = () => {
           columns={columns}
         />
       )}
-    </div>
+    </Page>
   );
 };

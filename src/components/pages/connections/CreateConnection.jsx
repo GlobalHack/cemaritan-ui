@@ -1,5 +1,6 @@
 import React from "react";
+import Page from "../page/Page";
 
 export const CreateConnection = () => {
-  return <div>this page lets you create connections</div>;
+  return <Page title="New Connection">...coming soon</Page>;
 };

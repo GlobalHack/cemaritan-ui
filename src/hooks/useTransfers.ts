@@ -25,7 +25,10 @@ export const useTransfers = () => {
         })
         .catch((err) => {
           console.error(err);
-          setError("failed to fetch transfers");
+          if (mounted) {
+            setError("failed to fetch transfers");
+            setFetching(false);
+          }
         });
     }
     fetchTransfers();

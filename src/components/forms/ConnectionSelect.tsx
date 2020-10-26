@@ -1,8 +1,7 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 
-import { useConnectionOptions } from "../../hooks";
-import { Connection } from "../../types";
+import { useConnections } from "../../hooks";
 
 interface ConnectionSelectProps {
   label: string;
@@ -15,7 +14,7 @@ const ConnectionSelect = ({
   value,
   updateValue,
 }: ConnectionSelectProps) => {
-  const connectionOptions: Connection[] = useConnectionOptions();
+  const { connections: connectionOptions } = useConnections();
 
   return (
     <Form.Group>

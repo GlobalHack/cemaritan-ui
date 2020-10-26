@@ -1,6 +1,6 @@
 export * from "./connections/CreateConnection";
 export * from "./connections/ViewConnections";
-export * from "./connections/ViewDataMappings";
+export * from "./ViewDataMappings";
 export * from "./transfers/CreateTransfer";
 export * from "./transfers/EditTransfer";
 export * from "./transfers/UploadTransfer";

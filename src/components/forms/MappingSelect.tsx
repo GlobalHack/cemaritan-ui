@@ -1,8 +1,7 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 
-import { useMappingOptions } from "../../hooks";
-import { Mapping } from "../../types";
+import { useMappings } from "../../hooks";
 
 interface MappingSelectProps {
   label: string;
@@ -11,7 +10,7 @@ interface MappingSelectProps {
 }
 
 const MappingSelect = ({ label, value, updateValue }: MappingSelectProps) => {
-  const mappingOptions: Mapping[] = useMappingOptions();
+  const { mappings: mappingOptions } = useMappings();
 
   return (
     <Form.Group>

@@ -1,7 +1,9 @@
 import React from "react";
 import BootstrapTable from "react-bootstrap-table-next";
+import { useConnections } from "../../../hooks";
 
-import { useDataFromUserOrg } from "../../../hooks/useDataFromUserOrg";
+import Page from "../page/Page";
+import { IPageAction, ActionType } from "../page/types";
 
 const columns = [
   {
@@ -27,13 +29,23 @@ const columns = [
 ];
 
 export const ViewConnections = () => {
-  const { data: connections, error } = useDataFromUserOrg("/connections");
+  const { connections, fetching, error } = useConnections();
+
+  const actions: IPageAction[] = [
+    {
+      actionType: ActionType.link,
+      id: "go-to-create-transfer",
+      label: "Create Connection",
+      variant: "primary",
+      linkTo: "/connections/create",
+      disabled: true,
+    },
+  ];
 
   return (
-    <div>
-      <h1>View Connections</h1>
+    <Page title="Connections" actions={actions}>
       {error && <p>{error}</p>}
-      {!connections && <p>loading...</p>}
+      {!connections && fetching && <p>loading...</p>}
       {connections && (
         <BootstrapTable
           bootstrap4
@@ -42,6 +54,6 @@ export const ViewConnections = () => {
           columns={columns}
         />
       )}
-    </div>
+    </Page>
   );
 };

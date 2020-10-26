@@ -12,9 +12,7 @@ const App = () => {
       <BrowserRouter>
         <div>
           <NavBar />
-          <div className="page-wrapper">
-            <Router />
-          </div>
+          <Router />
         </div>
       </BrowserRouter>
     </StoreProvider>
