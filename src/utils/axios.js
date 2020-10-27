@@ -1,11 +1,11 @@
 import axios from "axios";
-import { base_url } from "../config";
 
-// Create instance called instance
+// Create instance
 const instance = axios.create({
-  baseURL: base_url,
+  baseURL: process.env.REACT_APP_API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
+    "x-api-key": process.env.REACT_APP_API_KEY,
   },
 });
 

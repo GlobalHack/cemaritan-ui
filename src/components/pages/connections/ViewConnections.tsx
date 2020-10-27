@@ -1,4 +1,5 @@
 import React from "react";
+import { Alert } from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 import { useConnections } from "../../../hooks";
 import { formatDatetime } from "../../../utils/tableFormatters";
@@ -46,9 +47,9 @@ export const ViewConnections = () => {
 
   return (
     <Page title="Connections" actions={actions}>
-      {error && <p>{error}</p>}
+      {error && <Alert variant="danger">{error}</Alert>}
       {!connections && fetching && <p>loading...</p>}
-      {connections && (
+      {connections && connections.length > 0 && (
         <BootstrapTable
           bootstrap4
           keyField="uid"
