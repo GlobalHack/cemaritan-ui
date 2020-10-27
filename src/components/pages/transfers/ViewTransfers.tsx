@@ -5,6 +5,7 @@ import BootstrapTable from "react-bootstrap-table-next";
 import Page from "../page/Page";
 import { ActionType, IPageAction } from "../page/types";
 import { useTransfers } from "../../../hooks/useTransfers";
+import { formatDatetime } from "../../../utils/tableFormatters";
 
 const columns = [
   {
@@ -51,10 +52,7 @@ const columns = [
     dataField: "start_datetime",
     text: "Start Date",
     sort: true,
-    formatter: (cell: string) => {
-      const startDate = new Date(cell);
-      return startDate.toLocaleString();
-    },
+    formatter: formatDatetime,
   },
   {
     dataField: "uid",

@@ -1,6 +1,7 @@
 import React from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 import { useConnections } from "../../../hooks";
+import { formatDatetime } from "../../../utils/tableFormatters";
 
 import Page from "../page/Page";
 import { IPageAction, ActionType } from "../page/types";
@@ -25,6 +26,7 @@ const columns = [
     dataField: "created_datetime",
     text: "Created",
     sort: true,
+    formatter: formatDatetime,
   },
 ];
 
