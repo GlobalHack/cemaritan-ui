@@ -62,18 +62,16 @@ export interface Transfer {
   organization: number;
 }
 
-active: "FALSE";
-destination: "CW";
-destination_mapping: "CW Validation";
-destination_mapping_uid: 4;
-destination_uid: 123;
-organization: "SPC";
-source: "SP";
-source_mapping: "SP Validation";
-source_mapping_uid: 3;
-source_uid: 3;
-start_datetime: "2020-09-22T01:57:12.256Z";
-uid: 26;
+export interface History {
+  uid: number;
+  type: string;
+  action: string;
+  name: string;
+  datetime: string;
+  details: string;
+  organization: number;
+  source_uid: number;
+}
 
 export interface User {
   uid: number;

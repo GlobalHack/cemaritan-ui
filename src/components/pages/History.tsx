@@ -1,13 +1,16 @@
 import React from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 
-import { useDataFromUserOrg } from "../../hooks/useDataFromUserOrg";
+import Page from "./page/Page";
+import { useHistory } from "../../hooks";
+import { formatDatetime } from "../../utils/tableFormatters";
 
 const columns = [
   {
     dataField: "datetime",
     text: "Date",
     sort: true,
+    formatter: formatDatetime,
   },
   {
     dataField: "type",
@@ -19,24 +22,28 @@ const columns = [
     text: "Action",
     sort: true,
   },
+  {
+    dataField: "name",
+    text: "Name",
+    sort: false,
+  },
 ];
 
 export const History = () => {
-  const { data: histories, error } = useDataFromUserOrg("/histories");
+  const { history, fetching, error } = useHistory();
 
   return (
-    <div>
-      <h1>History</h1>
+    <Page title="History">
       {error && <p>{error}</p>}
-      {!histories && <p>loading...</p>}
-      {histories && (
+      {!history && fetching && <p>loading...</p>}
+      {history && (
         <BootstrapTable
           bootstrap4
           keyField="uid"
-          data={histories}
+          data={history}
           columns={columns}
         />
       )}
-    </div>
+    </Page>
   );
 };
